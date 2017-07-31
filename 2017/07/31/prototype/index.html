@@ -67,7 +67,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="WebKit," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -83,17 +83,17 @@
 
 
 
-<meta name="description" content="WKWebViewWKWebViewConfigurationWKScriptMessageWKScriptMessageHandler1234567891011class MessageHandler: NSObject &amp;#123;    static let name = &quot;MessageHandler&quot;&amp;#125;extension MessageHandler: WKScriptMess">
-<meta name="keywords" content="WebKit">
+<meta name="description" content="iOS developer">
+<meta name="keywords">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WKWebView和Native通信">
-<meta property="og:url" content="http://yoursite.com/2017/05/02/WebKit/index.html">
+<meta property="og:title" content="prototype">
+<meta property="og:url" content="http://yoursite.com/2017/07/31/prototype/index.html">
 <meta property="og:site_name" content="Simon's Blog">
-<meta property="og:description" content="WKWebViewWKWebViewConfigurationWKScriptMessageWKScriptMessageHandler1234567891011class MessageHandler: NSObject &amp;#123;    static let name = &quot;MessageHandler&quot;&amp;#125;extension MessageHandler: WKScriptMess">
-<meta property="og:updated_time" content="2017-06-23T11:10:00.000Z">
+<meta property="og:description" content="iOS developer">
+<meta property="og:updated_time" content="2017-07-31T10:28:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WKWebView和Native通信">
-<meta name="twitter:description" content="WKWebViewWKWebViewConfigurationWKScriptMessageWKScriptMessageHandler1234567891011class MessageHandler: NSObject &amp;#123;    static let name = &quot;MessageHandler&quot;&amp;#125;extension MessageHandler: WKScriptMess">
+<meta name="twitter:title" content="prototype">
+<meta name="twitter:description" content="iOS developer">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/02/WebKit/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/31/prototype/"/>
 
 
 
 
 
-  <title> WKWebView和Native通信 | Simon's Blog </title>
+  <title> prototype | Simon's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -256,7 +256,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/02/WebKit/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/31/prototype/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Simon">
@@ -277,7 +277,7 @@
             
             
               
-                WKWebView和Native通信
+                prototype
               
             
           </h1>
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-02T23:00:09+08:00">
-                2017-05-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-31T18:28:52+08:00">
+                2017-07-31
               </time>
             
 
@@ -302,28 +302,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Cocoa/" itemprop="url" rel="index">
-                    <span itemprop="name">Cocoa</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -350,8 +328,7 @@
       
 
       
-        <h2 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h2><h2 id="WKWebViewConfiguration"><a href="#WKWebViewConfiguration" class="headerlink" title="WKWebViewConfiguration"></a>WKWebViewConfiguration</h2><h2 id="WKScriptMessage"><a href="#WKScriptMessage" class="headerlink" title="WKScriptMessage"></a>WKScriptMessage</h2><h2 id="WKScriptMessageHandler"><a href="#WKScriptMessageHandler" class="headerlink" title="WKScriptMessageHandler"></a>WKScriptMessageHandler</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MessageHandler</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> name = <span class="string">"MessageHandler"</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MessageHandler</span>: <span class="title">WKScriptMessageHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">userContentController</span><span class="params">(<span class="number">_</span> userContentController: WKUserContentController, didReceive message: WKScriptMessage)</span></span> &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+        
       
     </div>
 
@@ -378,12 +355,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/WebKit/" rel="tag"># WebKit</a>
-          
-        </div>
-      
 
       
         
@@ -393,18 +364,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/25/ruby/" rel="next" title="ruby">
-                <i class="fa fa-chevron-left"></i> ruby
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/24/Dispatch/" rel="prev" title="Swift中使用GCD">
-                Swift中使用GCD <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/31/macOpenURL/" rel="prev" title="mac OpenURL">
+                mac OpenURL <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -452,17 +419,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -544,22 +502,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WKWebView"><span class="nav-number">1.</span> <span class="nav-text">WKWebView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WKWebViewConfiguration"><span class="nav-number">2.</span> <span class="nav-text">WKWebViewConfiguration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WKScriptMessage"><span class="nav-number">3.</span> <span class="nav-text">WKScriptMessage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WKScriptMessageHandler"><span class="nav-number">4.</span> <span class="nav-text">WKScriptMessageHandler</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
