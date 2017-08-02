@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Simon&#39;s Blog</title>
+  <subtitle>宁静致远</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2017-07-31T10:28:52.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Simon</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>prototype</title>
+    <link href="http://yoursite.com/2017/07/31/prototype/"/>
+    <id>http://yoursite.com/2017/07/31/prototype/</id>
+    <published>2017-07-31T10:28:52.000Z</published>
+    <updated>2017-07-31T10:28:52.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mac OpenURL</title>
+    <link href="http://yoursite.com/2017/07/31/macOpenURL/"/>
+    <id>http://yoursite.com/2017/07/31/macOpenURL/</id>
+    <published>2017-07-31T07:52:41.000Z</published>
+    <updated>2017-07-31T09:52:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="在info-plist中添加URL-Schememyapp"><a href="#在info-plist中添加URL-Schememyapp" class="headerlink" title="在info.plist中添加URL Schememyapp"></a>在<code>info.plist</code>中添加URL Scheme<code>myapp</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;CFBundleURLTypes&lt;/key&gt;</div><div class="line">&lt;array&gt;</div><div class="line">  &lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleURLName&lt;/key&gt;</div><div class="line">    &lt;string&gt;&lt;/string&gt;</div><div class="line">    &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;</div><div class="line">    &lt;array&gt;</div><div class="line">      &lt;string&gt;myapp&lt;/string&gt;</div><div class="line">    &lt;/array&gt;</div><div class="line">  &lt;/dict&gt;</div><div class="line">&lt;/array&gt;</div></pre></td></tr></table></figure>
+<h3 id="在applicationWillFinishLaunching中注册URL事件"><a href="#在applicationWillFinishLaunching中注册URL事件" class="headerlink" title="在applicationWillFinishLaunching中注册URL事件"></a>在<code>applicationWillFinishLaunching</code>中注册URL事件</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">applicationWillFinishLaunching</span><span class="params">(<span class="number">_</span> notification: Notification)</span></span> &#123;</div><div class="line">    <span class="type">NSAppleEventManager</span>.shared().setEventHandler(<span class="keyword">self</span>, andSelector: #selector(handleURL(event:with:)), forEventClass: <span class="type">AEEventClass</span>(kInternetEventClass), andEventID: <span class="type">AEEventID</span>(kAEGetURL))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleURL</span><span class="params">(event: NSAppleEventDescriptor, with replyEvent: NSAppleEventDescriptor)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> eventDesc = event.paramDescriptor(forKeyword: keyDirectObject)</div><div class="line">    <span class="keyword">let</span> url = eventDesc?.stringValue</div><div class="line">    <span class="keyword">let</span> alert = <span class="type">NSAlert</span>()</div><div class="line">    alert.messageText = <span class="string">"handleURL"</span></div><div class="line">    alert.informativeText = url ?? <span class="string">"error"</span></div><div class="line">    alert.addButton(withTitle: <span class="string">"done"</span>)</div><div class="line">    alert.runModal()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="调起MyApp的两种方式"><a href="#调起MyApp的两种方式" class="headerlink" title="调起MyApp的两种方式:"></a>调起MyApp的两种方式:</h3><p>1.在Safari中输入：<code>myapp://host?name=simon&amp;id=123456</code></p>
+<p>2.在其他app中调用：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"myapp://host?name=simon&amp;id=123456"</span>) &#123;</div><div class="line">    <span class="type">NSWorkspace</span>.shared.open(url)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="/2017/07/31/macOpenURL/alert.png" alt="alert"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;在info-plist中添加URL-Schememyapp&quot;&gt;&lt;a href=&quot;#在info-plist中添加URL-Schememyapp&quot; class=&quot;headerlink&quot; title=&quot;在info.plist中添加URL Schememyapp&quot;&gt;&lt;/a
+    
+    </summary>
+    
+      <category term="mac OS" scheme="http://yoursite.com/categories/mac-OS/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>linkedList</title>
+    <link href="http://yoursite.com/2017/06/21/linkedList/"/>
+    <id>http://yoursite.com/2017/06/21/linkedList/</id>
+    <published>2017-06-21T04:02:26.000Z</published>
+    <updated>2017-06-21T04:02:26.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Median of Two Sorted Arrays</title>
+    <link href="http://yoursite.com/2017/06/21/MedianofTwoSortedArrays/"/>
+    <id>http://yoursite.com/2017/06/21/MedianofTwoSortedArrays/</id>
+    <published>2017-06-21T03:52:04.000Z</published>
+    <updated>2017-06-21T04:00:57.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/#/description" target="_blank" rel="external">https://leetcode.com/problems/median-of-two-sorted-arrays/#/description</a></p>
+</blockquote>
+<p>给定两个有序数组，长度不一定相同，一个是m、一个是n，要求给出他们合并在一起之后的数组的中位数。要求时间复杂度为O(log(m+n))。<br>数组的中位数：<br>如果有序数组有奇数个元素，那么中位数是最中间那个元素。<br>如果有序数组有偶数个元素，那么中位数是中间两个元素的平均数。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/median-of-two-sorted-arrays/#/description&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://lee
+    
+    </summary>
+    
+      <category term="Algorithms" scheme="http://yoursite.com/categories/Algorithms/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Arrays</title>
+    <link href="http://yoursite.com/2017/06/21/Arrays/"/>
+    <id>http://yoursite.com/2017/06/21/Arrays/</id>
+    <published>2017-06-21T03:51:27.000Z</published>
+    <updated>2017-06-21T03:51:27.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>使用FileHandle读写文件</title>
+    <link href="http://yoursite.com/2017/06/06/FileHandle/"/>
+    <id>http://yoursite.com/2017/06/06/FileHandle/</id>
+    <published>2017-06-06T07:19:47.000Z</published>
+    <updated>2017-07-31T07:55:07.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="创建一个读取的filehandle"><a href="#创建一个读取的filehandle" class="headerlink" title="创建一个读取的filehandle"></a>创建一个读取的filehandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">10</span> &#123;</div><div class="line">        <span class="keyword">let</span> log = <span class="string">"id:<span class="subst">\(i)</span>"</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> data = log.data(using: .utf8) &#123;</div><div class="line">            fileHandle.write(data)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fileHandle.synchronizeFile()</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(fileHandle.availableData.<span class="built_in">count</span>)</div><div class="line"></div><div class="line">    fileHandle.seek(toFileOffset: <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="keyword">let</span> logs = <span class="type">String</span>(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!</div><div class="line">    <span class="built_in">print</span>(logs)</div><div class="line"></div><div class="line"></div><div class="line">    fileHandle.closeFile()</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="创建一个写入的fileHandle"><a href="#创建一个写入的fileHandle" class="headerlink" title="创建一个写入的fileHandle"></a>创建一个写入的fileHandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    fileHandle.synchronizeFile()</div><div class="line">    fileHandle.closeFile()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="异步读写"><a href="#异步读写" class="headerlink" title="异步读写"></a>异步读写</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;创建一个读取的filehandle&quot;&gt;&lt;a href=&quot;#创建一个读取的filehandle&quot; class=&quot;headerlink&quot; title=&quot;创建一个读取的filehandle&quot;&gt;&lt;/a&gt;创建一个读取的filehandle&lt;/h3&gt;&lt;figure class
+    
+    </summary>
+    
+      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
+    
+    
+      <category term="Foundation" scheme="http://yoursite.com/tags/Foundation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ruby</title>
+    <link href="http://yoursite.com/2017/05/25/ruby/"/>
+    <id>http://yoursite.com/2017/05/25/ruby/</id>
+    <published>2017-05-25T08:30:23.000Z</published>
+    <updated>2017-05-25T08:33:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span><span class="params">(name, age)</span></span></div><div class="line">    @name = name</div><div class="line">    @age = age</div><div class="line">  <span class="keyword">end</span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">description</span></span></div><div class="line">    <span class="string">'name:<span class="subst">#&#123;@name&#125;</span> age:<span class="subst">#&#123;@age&#125;</span>'</span></div><div class="line">  <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">p = Person.new(<span class="string">'simon'</span>, <span class="number">25</span>)</div><div class="line">p.description</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight ruby&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>WKWebView和Native通信</title>
+    <link href="http://yoursite.com/2017/05/02/WebKit/"/>
+    <id>http://yoursite.com/2017/05/02/WebKit/</id>
+    <published>2017-05-02T15:00:09.000Z</published>
+    <updated>2017-06-23T11:10:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h2><h2 id="WKWebViewConfiguration"><a href="#WKWebViewConfiguration" class="headerlink" title="WKWebViewConfiguration"></a>WKWebViewConfiguration</h2><h2 id="WKScriptMessage"><a href="#WKScriptMessage" class="headerlink" title="WKScriptMessage"></a>WKScriptMessage</h2><h2 id="WKScriptMessageHandler"><a href="#WKScriptMessageHandler" class="headerlink" title="WKScriptMessageHandler"></a>WKScriptMessageHandler</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MessageHandler</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> name = <span class="string">"MessageHandler"</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MessageHandler</span>: <span class="title">WKScriptMessageHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">userContentController</span><span class="params">(<span class="number">_</span> userContentController: WKUserContentController, didReceive message: WKScriptMessage)</span></span> &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;WKWebView&quot;&gt;&lt;a href=&quot;#WKWebView&quot; class=&quot;headerlink&quot; title=&quot;WKWebView&quot;&gt;&lt;/a&gt;WKWebView&lt;/h2&gt;&lt;h2 id=&quot;WKWebViewConfiguration&quot;&gt;&lt;a href=&quot;#WKW
+    
+    </summary>
+    
+      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
+    
+    
+      <category term="WebKit" scheme="http://yoursite.com/tags/WebKit/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swift中使用GCD</title>
+    <link href="http://yoursite.com/2017/04/24/Dispatch/"/>
+    <id>http://yoursite.com/2017/04/24/Dispatch/</id>
+    <published>2017-04-24T05:22:34.000Z</published>
+    <updated>2017-05-04T05:56:11.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
+    
+    
+      <category term="多线程" scheme="http://yoursite.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Objective-C消息转发</title>
+    <link href="http://yoursite.com/2017/04/18/MethodForward/"/>
+    <id>http://yoursite.com/2017/04/18/MethodForward/</id>
+    <published>2017-04-17T16:54:35.000Z</published>
+    <updated>2017-04-18T03:58:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="performSelector"><a href="#performSelector" class="headerlink" title="performSelector"></a>performSelector</h2><p>当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-[TestObjHelper someMethod]: unrecognized selector sent to instance 0x608000015230</div><div class="line">*** Terminating app due to uncaught exception &apos;NSInvalidArgumentException&apos;, reason: &apos;-[TestObjHelper someMethod]: unrecognized selector sent to instance 0x608000015230&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="动态方法解析"><a href="#动态方法解析" class="headerlink" title="动态方法解析"></a>动态方法解析</h3><p>对象在收到不存的方法，如果是类方法，会调用<code>+resolveClassMethod:</code>,如果是实例方法，会调用<code>+resolveInstanceMethod:</code>。在这个方法中我们可以通过<code>class_addMethod</code>为该类动态添加该方法，并返回<code>YES</code>，此时该对象会响应新增的<code>selector</code>。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">TestObj</span></span></div><div class="line"></div><div class="line"><span class="keyword">void</span> someMethodImp(<span class="keyword">id</span> <span class="keyword">self</span>,SEL _cmd) &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ %p"</span>,<span class="keyword">self</span>,_cmd);</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="built_in">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</div><div class="line">    <span class="keyword">if</span> ([<span class="built_in">NSStringFromSelector</span>(sel) isEqualToString:<span class="string">@"someMethod"</span>]) &#123;</div><div class="line">        class_addMethod(<span class="keyword">self</span>, sel, (IMP)someMethodImp, <span class="string">"@:"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">super</span> resolveInstanceMethod:sel];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line">[[TestObj new] performSelector:<span class="keyword">@selector</span>(someMethod)];</div><div class="line"></div><div class="line"><span class="comment">//&lt;TestObj: 0x608000008a50&gt; 0x10ade7b24</span></div></pre></td></tr></table></figure>
+<h3 id="备用接受者"><a href="#备用接受者" class="headerlink" title="备用接受者"></a>备用接受者</h3><p>如果上一步没有实现，则会继续调用如下方法：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">id</span>)forwardingTargetForSelector:(SEL)aSelector</div></pre></td></tr></table></figure></p>
+<p>该方法尝试获取一个能够处理该消息的对象，如果有，返回该对象，runtime会将消息转发到该对象。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">TestObjHelper</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)someMethod &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ %p"</span>,<span class="keyword">self</span>,_cmd);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">TestObj</span></span></div><div class="line"></div><div class="line">-(<span class="keyword">id</span>)forwardingTargetForSelector:(SEL)aSelector &#123;</div><div class="line">    <span class="keyword">return</span> [TestObjHelper new];</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[[TestObj new] performSelector:<span class="keyword">@selector</span>(someMethod)];</div><div class="line"><span class="comment">//&lt;TestObjHelper: 0x61000000dff0&gt; 0x106da4b2a</span></div></pre></td></tr></table></figure>
+<p>如果返回的对象不能处理消息，则会走该对象的消息转发流程。不能返回<code>self</code>，否则会陷入死循环。如果返回nil，则继续执行下面的过程。</p>
+<h3 id="完整的消息转发"><a href="#完整的消息转发" class="headerlink" title="完整的消息转发"></a>完整的消息转发</h3><h2 id="objc-msgForward"><a href="#objc-msgForward" class="headerlink" title="_objc_msgForward"></a>_objc_msgForward</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;performSelector&quot;&gt;&lt;a href=&quot;#performSelector&quot; class=&quot;headerlink&quot; title=&quot;performSelector&quot;&gt;&lt;/a&gt;performSelector&lt;/h2&gt;&lt;p&gt;当一个对象接收到不存在的方法时，默认
+    
+    </summary>
+    
+      <category term="Objective-C" scheme="http://yoursite.com/categories/Objective-C/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>URLCache</title>
+    <link href="http://yoursite.com/2017/04/15/URLCache/"/>
+    <id>http://yoursite.com/2017/04/15/URLCache/</id>
+    <published>2017-04-15T11:51:42.000Z</published>
+    <updated>2017-04-15T11:54:31.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
+    
+    
+      <category term="Foundation" scheme="http://yoursite.com/tags/Foundation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>URLProtocol</title>
+    <link href="http://yoursite.com/2017/04/15/URLProtocol/"/>
+    <id>http://yoursite.com/2017/04/15/URLProtocol/</id>
+    <published>2017-04-15T11:51:17.000Z</published>
+    <updated>2017-04-15T11:51:17.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>URLSession</title>
+    <link href="http://yoursite.com/2017/04/15/URLSession/"/>
+    <id>http://yoursite.com/2017/04/15/URLSession/</id>
+    <published>2017-04-15T11:26:34.000Z</published>
+    <updated>2017-04-15T11:49:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="URLSession"><a href="#URLSession" class="headerlink" title="URLSession"></a>URLSession</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Delegate</span>: <span class="title">URLSessionDelegate</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> session = <span class="type">URLSession</span>(configuration: <span class="type">URLSessionConfiguration</span>.<span class="keyword">default</span>, delegate: <span class="type">Delegate</span>(), delegateQueue: <span class="type">OperationQueue</span>.main)</div><div class="line"><span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"www.baidu.com"</span>)!</div><div class="line">session.dataTask(with: url)</div></pre></td></tr></table></figure>
+<h2 id="URLSessionConfiguration"><a href="#URLSessionConfiguration" class="headerlink" title="URLSessionConfiguration"></a>URLSessionConfiguration</h2><h2 id="URLSessionTask"><a href="#URLSessionTask" class="headerlink" title="URLSessionTask"></a>URLSessionTask</h2><h3 id="URLSessionDataTask"><a href="#URLSessionDataTask" class="headerlink" title="URLSessionDataTask"></a>URLSessionDataTask</h3><h3 id="URLSessionUploadTask"><a href="#URLSessionUploadTask" class="headerlink" title="URLSessionUploadTask"></a>URLSessionUploadTask</h3><h3 id="URLSessionUploadTask-1"><a href="#URLSessionUploadTask-1" class="headerlink" title="URLSessionUploadTask"></a>URLSessionUploadTask</h3><h3 id="URLSessionDownloadTask"><a href="#URLSessionDownloadTask" class="headerlink" title="URLSessionDownloadTask"></a>URLSessionDownloadTask</h3><h3 id="URLSessionStreamTask"><a href="#URLSessionStreamTask" class="headerlink" title="URLSessionStreamTask"></a>URLSessionStreamTask</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;URLSession&quot;&gt;&lt;a href=&quot;#URLSession&quot; class=&quot;headerlink&quot; title=&quot;URLSession&quot;&gt;&lt;/a&gt;URLSession&lt;/h2&gt;&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;t
+    
+    </summary>
+    
+      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>正则表达式</title>
+    <link href="http://yoursite.com/2017/04/10/RegEx/"/>
+    <id>http://yoursite.com/2017/04/10/RegEx/</id>
+    <published>2017-04-10T14:16:47.000Z</published>
+    <updated>2017-04-10T14:23:11.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Swift" scheme="http://yoursite.com/categories/Swift/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Swift</title>
+    <link href="http://yoursite.com/2017/04/10/Swift/"/>
+    <id>http://yoursite.com/2017/04/10/Swift/</id>
+    <published>2017-04-10T06:47:05.000Z</published>
+    <updated>2017-04-10T07:08:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"hello world"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="protocol"><a href="#protocol" class="headerlink" title="protocol"></a>protocol</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Readable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">read</span><span class="params">()</span></span> -&gt; <span class="type">Data</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">File</span>: <span class="title">Readable</span> </span>&#123;</div><div class="line">    <span class="keyword">init</span>(path: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.path = path</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">let</span> path: <span class="type">String</span></div><div class="line"></div><div class="line">    read() -&gt; <span class="type">Data</span> &#123;</div><div class="line">        <span class="keyword">let</span> data = <span class="type">Data</span>()</div><div class="line">        <span class="keyword">return</span> data</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
+    
+    </summary>
+    
+      <category term="Swift" scheme="http://yoursite.com/categories/Swift/"/>
+    
+    
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2017/04/10/hello-world/"/>
+    <id>http://yoursite.com/2017/04/10/hello-world/</id>
+    <published>2017-04-10T03:13:57.000Z</published>
+    <updated>2017-04-10T07:08:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+    
+    </summary>
+    
+      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
+    
+    
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
+    
+  </entry>
+  
+</feed>
