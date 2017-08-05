@@ -1,40 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
-  <head>
-    
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-  <meta name="description" content="Swift中使用GCD"/>
-
-
-
-
-  <meta name="keywords" content="多线程," />
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Simon's Blog">
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.4.x" />
-
-
-
-<link rel="canonical" href="http://yoursite.com/2017/04/24/Dispatch/"/>
-
-
-<meta name="description" content="iOS developer">
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Swift中使用GCD - Simon&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="iOS developer">
 <meta name="keywords" content="多线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift中使用GCD">
@@ -45,279 +16,117 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift中使用GCD">
 <meta name="twitter:description" content="iOS developer">
-
-
-<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.4.x" />
-
-
-
-
-
-
-
-<script>
-  var CONFIG = {
-    search: false,
-    searchPath: "/search.xml",
-    fancybox: false,
-    toc: true,
-  }
-</script>
-
-
-
-
+  
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
   
 
+</head>
 
-
-    <title> Swift中使用GCD · Simon's Blog </title>
-  </head>
-
-  <body><div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/." class="logo">Simon's Blog</a>
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
   </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
+</header>
+    <section id="main" class="outer"><article id="post-Dispatch" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-      <a href="/">
-        <li class="mobile-menu-item">
-          
-          
-            Home
-          
-        </li>
-      </a>
     
-      <a href="/archives/">
-        <li class="mobile-menu-item">
-          
-          
-            Archives
-          
-        </li>
-      </a>
-    
-  </ul>
-</nav>
-
-    <div class="container" id="mobile-panel">
-      <header id="header" class="header"><div class="logo-wrapper">
-  <a href="/." class="logo">Simon's Blog</a>
-</div>
-
-<nav class="site-navbar">
+      <header class="article-header">
+        
   
-    <ul id="menu" class="menu">
-      
-        <li class="menu-item">
-          <a class="menu-item-link" href="/">
-            
-            
-              Home
-            
-          </a>
-        </li>
-      
-        <li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
-            
-            
-              Archives
-            
-          </a>
-        </li>
-      
-      
-    </ul>
+    <h1 class="article-title" itemprop="name">
+      Swift中使用GCD
+    </h1>
   
-</nav>
 
       </header>
-
-      <main id="main" class="main">
-        <div class="content-wrapper">
-          <div id="content" class="content">
-            
-  
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          Swift中使用GCD
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          Apr 24, 2017
-        </span>
-      </div>
-    </header>
-
     
-    
+    <div class="article-meta">
+      <a href="/2017/04/24/Dispatch/" class="article-date">
+  <time datetime="2017-04-24T05:22:34.000Z" itemprop="datePublished">2017-04-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Cocoa/">Cocoa</a>
+  </div>
 
-    <div class="post-content">
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
       
         
       
     </div>
-
     
-      
-      
-
-
-
-      
-      
     
-
-    
-      <footer class="post-footer">
+      <footer class="article-footer">
         
-          <div class="post-tags">
-            
-              <a href="/tags/多线程/">多线程</a>
-            
-          </div>
-        
-        
-        
-  <nav class="post-nav">
-    
-      <a class="prev" href="/2017/04/18/MethodForward/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">Objective-C消息转发</span>
-        <span class="prev-text nav-mobile">Prev</span>
-      </a>
-    
-    
-      <a class="next" href="/2017/05/02/WebKit/">
-        <span class="next-text nav-default">WKWebView和Native通信</span>
-        <span class="prev-text nav-mobile">Next</span>
-        <i class="iconfont icon-right"></i>
-      </a>
-    
-  </nav>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li></ul>
 
       </footer>
     
-
-  </article>
-
-
-          </div>
-          
-  <div class="comments" id="comments">
-    
   </div>
-
-
-        </div>  
-      </main>
-
-      <footer id="footer" class="footer">
-
-  <div class="social-links">
-    
-      
-        
-          <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
-        
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-    
-    
-      <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
-    
-  </div>
-
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
-  </span>
   
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
-  </span>
-
-  <span class="copyright-year">
     
-    &copy; 
-     
-      2015 - 
-    
-    2017
-
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Simon</span>
-  </span>
-</div>
-      </footer>
-
-      <div class="back-to-top" id="back-to-top">
-        <i class="iconfont icon-up"></i>
+<nav id="article-nav">
+  
+    <a href="/2017/04/18/MethodForward/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          Objective-C消息转发
+        
       </div>
+    </a>
+  
+  
+    <a href="/2017/05/02/WebKit/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">WKWebView和Native通信&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Simon&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
     </div>
-
-    
-  
-
-
-
+  </div>
+</footer>
     
 
+<script src="/js/jquery.min.js"></script>
 
 
 
-  
-    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
-  
-
-  
-    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
-  
-
-  
-
-
-    <script type="text/javascript" src="/js/src/even.js?v=2.4.x"></script>
-<script type="text/javascript" src="/js/src/bootstrap.js?v=2.4.x"></script>
-
-    
-  </body>
+<script src="/js/script.js"></script>
+  </div>
+</body>
 </html>
