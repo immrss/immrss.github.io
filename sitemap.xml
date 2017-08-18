@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/04/10/RegEx/</loc>
+    
+    <lastmod>2017-08-18T18:14:57.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/08/18/NSException/</loc>
     
-    <lastmod>2017-08-18T17:47:16.000Z</lastmod>
+    <lastmod>2017-08-18T18:14:46.000Z</lastmod>
     
   </url>
   
@@ -44,23 +51,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2017/06/21/linkedList/</loc>
-    
-    <lastmod>2017-06-21T04:02:26.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2017/06/21/MedianofTwoSortedArrays/</loc>
     
     <lastmod>2017-06-21T04:00:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/06/21/Arrays/</loc>
-    
-    <lastmod>2017-06-21T03:51:27.000Z</lastmod>
     
   </url>
   
@@ -72,44 +65,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2017/04/15/URLCache/</loc>
-    
-    <lastmod>2017-04-15T11:54:31.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2017/04/15/URLProtocol/</loc>
     
     <lastmod>2017-04-15T11:51:17.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/04/15/URLSession/</loc>
-    
-    <lastmod>2017-04-15T11:49:35.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/04/10/RegEx/</loc>
-    
-    <lastmod>2017-04-10T14:23:11.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/04/10/Swift/</loc>
-    
-    <lastmod>2017-04-10T07:08:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/04/10/hello-world/</loc>
-    
-    <lastmod>2017-04-10T07:08:30.000Z</lastmod>
     
   </url>
   

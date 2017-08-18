@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-18T17:47:16.000Z</updated>
+  <updated>2017-08-18T18:14:46.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>OC中异常的处理</title>
+    <title>OC中的异常</title>
     <link href="http://yoursite.com/2017/08/18/NSException/"/>
     <id>http://yoursite.com/2017/08/18/NSException/</id>
     <published>2017-08-18T15:55:01.000Z</published>
-    <updated>2017-08-18T17:47:16.000Z</updated>
+    <updated>2017-08-18T18:14:46.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建异常</span></div><div class="line">[<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line">[[<span class="built_in">NSException</span> alloc]initWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line"></div><div class="line"><span class="comment">//实例方法抛出异常</span></div><div class="line">[exception raise];</div><div class="line"></div><div class="line"><span class="comment">//类方法抛出异常</span></div><div class="line">[<span class="built_in">NSException</span> raise:<span class="built_in">NSInvalidArgumentException</span> format:<span class="string">@"数组越界啦"</span>];</div><div class="line"></div><div class="line"><span class="comment">//@throw关键字</span></div><div class="line"><span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div></pre></td></tr></table></figure>
 <p>控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">*** Terminating app due to uncaught exception &apos;NSInvalidArgumentException&apos;, reason: &apos;数组越界啦&apos;</div><div class="line">*** First throw call stack:</div><div class="line">(</div><div class="line">	0   CoreFoundation                      0x0000000102d8979b __exceptionPreprocess + 171</div><div class="line">	1   libobjc.A.dylib                     0x00000001026eb121 objc_exception_throw + 48</div><div class="line">	2   CoreFoundation                      0x0000000102e02b25 +[NSException raise:format:] + 197</div><div class="line">	3   exc                                 0x0000000101de049f -[ViewController viewDidLoad] + 95</div><div class="line">	4   UIKit                               0x000000010339d4ec -[UIViewController loadViewIfRequired] + 1235</div><div class="line">	5   UIKit                               0x000000010339d939 -[UIViewController view] + 27</div><div class="line">	6   UIKit                               0x0000000103278903 -[UIWindow addRootViewControllerViewIfPossible] + 122</div><div class="line">	7   UIKit                               0x0000000103278ff5 -[UIWindow _setHidden:forced:] + 294</div><div class="line">	8   UIKit                               0x000000010328bd3b -[UIWindow makeKeyAndVisible] + 42</div><div class="line">	9   UIKit                               0x00000001032011a4 -[UIApplication _callInitializationDelegatesForMainScene:transitionContext:] + 4711</div><div class="line">	10  UIKit                               0x00000001032065cd -[UIApplication _runWithMainScene:transitionContext:completion:] + 1720</div><div class="line">	11  UIKit                               0x00000001035a3d3d __111-[__UICanvasLifecycleMonitor_Compatability _scheduleFirstCommitForScene:transition:firstActivation:completion:]_block_invoke + 111</div><div class="line">	12  UIKit                               0x000000010395b86d +[_UICanvas _enqueuePostSettingUpdateTransactionBlock:] + 153</div><div class="line">	13  UIKit                               0x00000001035a3c63 -[__UICanvasLifecycleMonitor_Compatability _scheduleFirstCommitForScene:transition:firstActivation:completion:] + 249</div><div class="line">	14  UIKit                               0x00000001035a3fff -[__UICanvasLifecycleMonitor_Compatability activateEventsOnly:withContext:completion:] + 530</div><div class="line">	15  UIKit                               0x0000000103ec010a __82-[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:completion:]_block_invoke + 259</div><div class="line">	16  UIKit                               0x0000000103ebffc6 -[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:completion:] + 444</div><div class="line">	17  UIKit                               0x0000000103bc752d __125-[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:settingsDiff:fromSettings:transitionContext:]_block_invoke + 221</div><div class="line">	18  UIKit                               0x0000000103db55fa _performActionsWithDelayForTransitionContext + 100</div><div class="line">	19  UIKit                               0x0000000103bc73f0 -[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 231</div><div class="line">	20  UIKit                               0x000000010395aeca -[_UICanvas scene:didUpdateWithDiff:transitionContext:completion:] + 392</div><div class="line">	21  UIKit                               0x0000000103204e80 -[UIApplication workspace:didCreateScene:withTransitionContext:completion:] + 664</div><div class="line">	22  UIKit                               0x00000001037a2094 -[UIApplicationSceneClientAgent scene:didInitializeWithEvent:completion:] + 369</div><div class="line">	23  FrontBoardServices                  0x00000001071e05c8 -[FBSSceneImpl _didCreateWithTransitionContext:completion:] + 338</div><div class="line">	24  FrontBoardServices                  0x00000001071e9025 __56-[FBSWorkspace client:handleCreateScene:withCompletion:]_block_invoke_2 + 235</div><div class="line">	25  libdispatch.dylib                   0x00000001065e5658 _dispatch_client_callout + 8</div><div class="line">	26  libdispatch.dylib                   0x00000001065eae6b _dispatch_block_invoke_direct + 589</div><div class="line">	27  FrontBoardServices                  0x00000001072147e3 __FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 24</div><div class="line">	28  FrontBoardServices                  0x0000000107214499 -[FBSSerialQueue _performNext] + 464</div><div class="line">	29  FrontBoardServices                  0x0000000107214a08 -[FBSSerialQueue _performNextFromRunLoopSource] + 45</div><div class="line">	30  CoreFoundation                      0x0000000102d2ce71 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 17</div><div class="line">	31  CoreFoundation                      0x0000000102d1156f __CFRunLoopDoSources0 + 271</div><div class="line">	32  CoreFoundation                      0x0000000102d10b1f __CFRunLoopRun + 1039</div><div class="line">	33  CoreFoundation                      0x0000000102d10499 CFRunLoopRunSpecific + 409</div><div class="line">	34  GraphicsServices                    0x0000000107b229d7 GSEventRunModal + 62</div><div class="line">	35  UIKit                               0x00000001032080b8 UIApplicationMain + 159</div><div class="line">	36  exc                                 0x0000000101de055f main + 111</div><div class="line">	37  libdyld.dylib                       0x0000000106666771 start + 1</div><div class="line">	38  ???                                 0x0000000000000001 0x0 + 1</div><div class="line">)</div><div class="line">libc++abi.dylib: terminating with uncaught exception of type NSException</div></pre></td></tr></table></figure></p>
@@ -67,20 +67,6 @@
   </entry>
   
   <entry>
-    <title>linkedList</title>
-    <link href="http://yoursite.com/2017/06/21/linkedList/"/>
-    <id>http://yoursite.com/2017/06/21/linkedList/</id>
-    <published>2017-06-21T04:02:26.000Z</published>
-    <updated>2017-06-21T04:02:26.000Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Median of Two Sorted Arrays</title>
     <link href="http://yoursite.com/2017/06/21/MedianofTwoSortedArrays/"/>
     <id>http://yoursite.com/2017/06/21/MedianofTwoSortedArrays/</id>
@@ -101,20 +87,6 @@
     </summary>
     
       <category term="Algorithms" scheme="http://yoursite.com/categories/Algorithms/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Arrays</title>
-    <link href="http://yoursite.com/2017/06/21/Arrays/"/>
-    <id>http://yoursite.com/2017/06/21/Arrays/</id>
-    <published>2017-06-21T03:51:27.000Z</published>
-    <updated>2017-06-21T03:51:27.000Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
     
     
   </entry>
@@ -213,24 +185,6 @@
   </entry>
   
   <entry>
-    <title>URLCache</title>
-    <link href="http://yoursite.com/2017/04/15/URLCache/"/>
-    <id>http://yoursite.com/2017/04/15/URLCache/</id>
-    <published>2017-04-15T11:51:42.000Z</published>
-    <updated>2017-04-15T11:54:31.000Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
-    
-    
-      <category term="Foundation" scheme="http://yoursite.com/tags/Foundation/"/>
-    
-  </entry>
-  
-  <entry>
     <title>URLProtocol</title>
     <link href="http://yoursite.com/2017/04/15/URLProtocol/"/>
     <id>http://yoursite.com/2017/04/15/URLProtocol/</id>
@@ -245,32 +199,11 @@
   </entry>
   
   <entry>
-    <title>URLSession</title>
-    <link href="http://yoursite.com/2017/04/15/URLSession/"/>
-    <id>http://yoursite.com/2017/04/15/URLSession/</id>
-    <published>2017-04-15T11:26:34.000Z</published>
-    <updated>2017-04-15T11:49:35.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="URLSession"><a href="#URLSession" class="headerlink" title="URLSession"></a>URLSession</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Delegate</span>: <span class="title">URLSessionDelegate</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> session = <span class="type">URLSession</span>(configuration: <span class="type">URLSessionConfiguration</span>.<span class="keyword">default</span>, delegate: <span class="type">Delegate</span>(), delegateQueue: <span class="type">OperationQueue</span>.main)</div><div class="line"><span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"www.baidu.com"</span>)!</div><div class="line">session.dataTask(with: url)</div></pre></td></tr></table></figure>
-<h2 id="URLSessionConfiguration"><a href="#URLSessionConfiguration" class="headerlink" title="URLSessionConfiguration"></a>URLSessionConfiguration</h2><h2 id="URLSessionTask"><a href="#URLSessionTask" class="headerlink" title="URLSessionTask"></a>URLSessionTask</h2><h3 id="URLSessionDataTask"><a href="#URLSessionDataTask" class="headerlink" title="URLSessionDataTask"></a>URLSessionDataTask</h3><h3 id="URLSessionUploadTask"><a href="#URLSessionUploadTask" class="headerlink" title="URLSessionUploadTask"></a>URLSessionUploadTask</h3><h3 id="URLSessionUploadTask-1"><a href="#URLSessionUploadTask-1" class="headerlink" title="URLSessionUploadTask"></a>URLSessionUploadTask</h3><h3 id="URLSessionDownloadTask"><a href="#URLSessionDownloadTask" class="headerlink" title="URLSessionDownloadTask"></a>URLSessionDownloadTask</h3><h3 id="URLSessionStreamTask"><a href="#URLSessionStreamTask" class="headerlink" title="URLSessionStreamTask"></a>URLSessionStreamTask</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;URLSession&quot;&gt;&lt;a href=&quot;#URLSession&quot; class=&quot;headerlink&quot; title=&quot;URLSession&quot;&gt;&lt;/a&gt;URLSession&lt;/h2&gt;&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;t
-    
-    </summary>
-    
-      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>正则表达式</title>
+    <title>使用正则表达式</title>
     <link href="http://yoursite.com/2017/04/10/RegEx/"/>
     <id>http://yoursite.com/2017/04/10/RegEx/</id>
     <published>2017-04-10T14:16:47.000Z</published>
-    <updated>2017-04-10T14:23:11.000Z</updated>
+    <updated>2017-08-18T18:14:57.000Z</updated>
     
     <summary type="html">
     
@@ -278,62 +211,6 @@
     
       <category term="Swift" scheme="http://yoursite.com/categories/Swift/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Swift</title>
-    <link href="http://yoursite.com/2017/04/10/Swift/"/>
-    <id>http://yoursite.com/2017/04/10/Swift/</id>
-    <published>2017-04-10T06:47:05.000Z</published>
-    <updated>2017-04-10T07:08:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"hello world"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="protocol"><a href="#protocol" class="headerlink" title="protocol"></a>protocol</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Readable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">read</span><span class="params">()</span></span> -&gt; <span class="type">Data</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">File</span>: <span class="title">Readable</span> </span>&#123;</div><div class="line">    <span class="keyword">init</span>(path: <span class="type">String</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.path = path</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">let</span> path: <span class="type">String</span></div><div class="line"></div><div class="line">    read() -&gt; <span class="type">Data</span> &#123;</div><div class="line">        <span class="keyword">let</span> data = <span class="type">Data</span>()</div><div class="line">        <span class="keyword">return</span> data</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
-    
-    </summary>
-    
-      <category term="Swift" scheme="http://yoursite.com/categories/Swift/"/>
-    
-    
-      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2017/04/10/hello-world/"/>
-    <id>http://yoursite.com/2017/04/10/hello-world/</id>
-    <published>2017-04-10T03:13:57.000Z</published>
-    <updated>2017-04-10T07:08:30.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-    
-    </summary>
-    
-      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
-    
-    
-      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
     
   </entry>
   
