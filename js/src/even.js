@@ -55,8 +55,8 @@
         $footer = $('.post-footer');
 
     if ($toc.length) {
-      var minScrollTop = $toc.offset().top - SPACING,
-          maxScrollTop = $footer.offset().top - $toc.height() - SPACING;
+      var minScrollTop = $toc.offset().top - SPACING;
+      var maxScrollTop = $footer.offset().top - $toc.height() - SPACING;
 
       var tocState = {
         start: {
@@ -78,9 +78,9 @@
 
         if (scrollTop < minScrollTop) {
           $toc.css(tocState.start);
-        } else if (scrollTop > maxScrollTop) {
+        } /* else if (scrollTop > maxScrollTop) {
           $toc.css(tocState.end);
-        } else {
+        } */ else {
           $toc.css(tocState.process);
         }
       })

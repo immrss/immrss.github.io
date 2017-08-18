@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="en">
   <head>
     
 <meta charset="UTF-8"/>
@@ -31,7 +31,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Simon's Blog">
+  <link rel="alternate" href="/atom.xml" title="Simon">
 
 
 
@@ -71,12 +71,12 @@
 
 
 
-    <title> Simon's Blog </title>
+    <title> Simon </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
   <div class="mobile-header-logo">
-    <a href="/." class="logo">Simon's Blog</a>
+    <a href="/." class="logo">Simon</a>
   </div>
   <div class="mobile-navbar-icon">
     <span></span>
@@ -106,12 +106,30 @@
         </li>
       </a>
     
+      <a href="/categories">
+        <li class="mobile-menu-item">
+          
+          
+            Categories
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            About
+          
+        </li>
+      </a>
+    
   </ul>
 </nav>
 
     <div class="container" id="mobile-panel">
       <header id="header" class="header"><div class="logo-wrapper">
-  <a href="/." class="logo">Simon's Blog</a>
+  <a href="/." class="logo">Simon</a>
 </div>
 
 <nav class="site-navbar">
@@ -122,7 +140,7 @@
           <a class="menu-item-link" href="/">
             
             
-              首页
+              Home
             
           </a>
         </li>
@@ -131,7 +149,25 @@
           <a class="menu-item-link" href="/archives/">
             
             
-              归档
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/categories">
+            
+            
+              Categories
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              About
             
           </a>
         </li>
@@ -147,44 +183,6 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts">
-    
-      
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2017/07/31/prototype/">prototype</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-07-31
-        </span>
-        
-      </div>
-    </header>
-
-    
-    
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
     
       
   <article class="post">
@@ -218,12 +216,10 @@
         
 
         
-          <h3 id="在info-plist中添加URL-Schememyapp"><a href="#在info-plist中添加URL-Schememyapp" class="headerlink" title="在info.plist中添加URL Schememyapp"></a>在<code>info.plist</code>中添加URL Scheme<code>myapp</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;CFBundleURLTypes&lt;/key&gt;</div><div class="line">&lt;array&gt;</div><div class="line">  &lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleURLName&lt;/key&gt;</div><div class="line">    &lt;string&gt;&lt;/string&gt;</div><div class="line">    &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;</div><div class="line">    &lt;array&gt;</div><div class="line">      &lt;string&gt;myapp&lt;/string&gt;</div><div class="line">    &lt;/array&gt;</div><div class="line">  &lt;/dict&gt;</div><div class="line">&lt;/array&gt;</div></pre></td></tr></table></figure>
-<h3 id="在applicationWillFinishLaunching中注册URL事件"><a href="#在applicationWillFinishLaunching中注册URL事件" class="headerlink" title="在applicationWillFinishLaunching中注册URL事件"></a>在<code>applicationWillFinishLaunching</code>中注册URL事件</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">applicationWillFinishLaunching</span><span class="params">(<span class="number">_</span> notification: Notification)</span></span> &#123;</div><div class="line">    <span class="type">NSAppleEventManager</span>.shared().setEventHandler(<span class="keyword">self</span>, andSelector: #selector(handleURL(event:with:)), forEventClass: <span class="type">AEEventClass</span>(kInternetEventClass), andEventID: <span class="type">AEEventID</span>(kAEGetURL))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <h3 id="在info-plist中添加URL-Schememyapp"><a href="#在info-plist中添加URL-Schememyapp" class="headerlink" title="在info.plist中添加URL Schememyapp"></a>在<code>info.plist</code>中添加URL Scheme<code>myapp</code></h3><h3 id="在applicationWillFinishLaunching中注册URL事件"><a href="#在applicationWillFinishLaunching中注册URL事件" class="headerlink" title="在applicationWillFinishLaunching中注册URL事件"></a>在<code>applicationWillFinishLaunching</code>中注册URL事件</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">applicationWillFinishLaunching</span><span class="params">(<span class="number">_</span> notification: Notification)</span></span> &#123;</div><div class="line">    <span class="type">NSAppleEventManager</span>.shared().setEventHandler(<span class="keyword">self</span>, andSelector: #selector(handleURL(event:with:)), forEventClass: <span class="type">AEEventClass</span>(kInternetEventClass), andEventID: <span class="type">AEEventID</span>(kAEGetURL))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleURL</span><span class="params">(event: NSAppleEventDescriptor, with replyEvent: NSAppleEventDescriptor)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> eventDesc = event.paramDescriptor(forKeyword: keyDirectObject)</div><div class="line">    <span class="keyword">let</span> url = eventDesc?.stringValue</div><div class="line">    <span class="keyword">let</span> alert = <span class="type">NSAlert</span>()</div><div class="line">    alert.messageText = <span class="string">"handleURL"</span></div><div class="line">    alert.informativeText = url ?? <span class="string">"error"</span></div><div class="line">    alert.addButton(withTitle: <span class="string">"done"</span>)</div><div class="line">    alert.runModal()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="调起MyApp的两种方式"><a href="#调起MyApp的两种方式" class="headerlink" title="调起MyApp的两种方式:"></a>调起MyApp的两种方式:</h3><p>1.在Safari中输入：<code>myapp://host?name=simon&amp;id=123456</code></p>
-<p>2.在其他app中调用：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"myapp://host?name=simon&amp;id=123456"</span>) &#123;</div><div class="line">    <span class="type">NSWorkspace</span>.shared.open(url)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="/2017/07/31/macOpenURL/alert.png" alt="alert"></p>
+<h3 id="调起MyApp的两种方式"><a href="#调起MyApp的两种方式" class="headerlink" title="调起MyApp的两种方式:"></a>调起MyApp的两种方式:</h3><p>1.在浏览器中跳转：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"myapp://myhost?name=simon&amp;id=123456"</span>&gt;</span>click me<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>2.在其他app中跳转：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"myapp://host?name=simon&amp;id=123456"</span>) &#123;</div><div class="line">    <span class="type">NSWorkspace</span>.shared.open(url)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
         
       
@@ -586,6 +582,50 @@
   </article>
 
     
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2017/04/15/URLCache/">URLCache</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-04-15
+        </span>
+        
+          <div class="post-category">
+            
+              <a href="/categories/Cocoa/">Cocoa</a>
+            
+          </div>
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+    
   </section>
 
   
@@ -593,7 +633,7 @@
     
     
       <a class="next" href="/page/2/">
-        <span class="next-text">下一页</span>
+        <span class="next-text">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
     
@@ -612,10 +652,14 @@
     
       
         
-          <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+          <a href="https://github.com/immrss" class="iconfont icon-github" title="github"></a>
         
       
     
+      
+        
+          <a href="mailto:immrss@sina.com" class="iconfont icon-email" title="email"></a>
+        
       
     
       
@@ -645,11 +689,11 @@
 
 <div class="copyright">
   <span class="power-by">
-    由 <a class="hexo-link" href="https://hexo.io/">Hexo</a> 强力驱动
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a>
   </span>
   
   <span class="theme-info">
-    主题 - 
+    Theme - 
     <a class="theme-link" href="https://github.com/ahonn/hexo-theme-even">Even</a>
   </span>
 

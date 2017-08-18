@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Simon&#39;s Blog</title>
+  <title>Simon</title>
   <subtitle>宁静致远</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-02T17:12:41.000Z</updated>
+  <updated>2017-08-18T15:27:01.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,32 +16,16 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>prototype</title>
-    <link href="http://yoursite.com/2017/07/31/prototype/"/>
-    <id>http://yoursite.com/2017/07/31/prototype/</id>
-    <published>2017-07-31T10:28:52.000Z</published>
-    <updated>2017-08-02T17:12:41.000Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>mac OpenURL</title>
     <link href="http://yoursite.com/2017/07/31/macOpenURL/"/>
     <id>http://yoursite.com/2017/07/31/macOpenURL/</id>
     <published>2017-07-31T07:52:41.000Z</published>
-    <updated>2017-08-05T11:59:28.000Z</updated>
+    <updated>2017-08-18T15:27:01.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="在info-plist中添加URL-Schememyapp"><a href="#在info-plist中添加URL-Schememyapp" class="headerlink" title="在info.plist中添加URL Schememyapp"></a>在<code>info.plist</code>中添加URL Scheme<code>myapp</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;CFBundleURLTypes&lt;/key&gt;</div><div class="line">&lt;array&gt;</div><div class="line">  &lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleURLName&lt;/key&gt;</div><div class="line">    &lt;string&gt;&lt;/string&gt;</div><div class="line">    &lt;key&gt;CFBundleURLSchemes&lt;/key&gt;</div><div class="line">    &lt;array&gt;</div><div class="line">      &lt;string&gt;myapp&lt;/string&gt;</div><div class="line">    &lt;/array&gt;</div><div class="line">  &lt;/dict&gt;</div><div class="line">&lt;/array&gt;</div></pre></td></tr></table></figure>
-<h3 id="在applicationWillFinishLaunching中注册URL事件"><a href="#在applicationWillFinishLaunching中注册URL事件" class="headerlink" title="在applicationWillFinishLaunching中注册URL事件"></a>在<code>applicationWillFinishLaunching</code>中注册URL事件</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">applicationWillFinishLaunching</span><span class="params">(<span class="number">_</span> notification: Notification)</span></span> &#123;</div><div class="line">    <span class="type">NSAppleEventManager</span>.shared().setEventHandler(<span class="keyword">self</span>, andSelector: #selector(handleURL(event:with:)), forEventClass: <span class="type">AEEventClass</span>(kInternetEventClass), andEventID: <span class="type">AEEventID</span>(kAEGetURL))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<h3 id="在info-plist中添加URL-Schememyapp"><a href="#在info-plist中添加URL-Schememyapp" class="headerlink" title="在info.plist中添加URL Schememyapp"></a>在<code>info.plist</code>中添加URL Scheme<code>myapp</code></h3><h3 id="在applicationWillFinishLaunching中注册URL事件"><a href="#在applicationWillFinishLaunching中注册URL事件" class="headerlink" title="在applicationWillFinishLaunching中注册URL事件"></a>在<code>applicationWillFinishLaunching</code>中注册URL事件</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">applicationWillFinishLaunching</span><span class="params">(<span class="number">_</span> notification: Notification)</span></span> &#123;</div><div class="line">    <span class="type">NSAppleEventManager</span>.shared().setEventHandler(<span class="keyword">self</span>, andSelector: #selector(handleURL(event:with:)), forEventClass: <span class="type">AEEventClass</span>(kInternetEventClass), andEventID: <span class="type">AEEventID</span>(kAEGetURL))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleURL</span><span class="params">(event: NSAppleEventDescriptor, with replyEvent: NSAppleEventDescriptor)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> eventDesc = event.paramDescriptor(forKeyword: keyDirectObject)</div><div class="line">    <span class="keyword">let</span> url = eventDesc?.stringValue</div><div class="line">    <span class="keyword">let</span> alert = <span class="type">NSAlert</span>()</div><div class="line">    alert.messageText = <span class="string">"handleURL"</span></div><div class="line">    alert.informativeText = url ?? <span class="string">"error"</span></div><div class="line">    alert.addButton(withTitle: <span class="string">"done"</span>)</div><div class="line">    alert.runModal()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="调起MyApp的两种方式"><a href="#调起MyApp的两种方式" class="headerlink" title="调起MyApp的两种方式:"></a>调起MyApp的两种方式:</h3><p>1.在Safari中输入：<code>myapp://host?name=simon&amp;id=123456</code></p>
-<p>2.在其他app中调用：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"myapp://host?name=simon&amp;id=123456"</span>) &#123;</div><div class="line">    <span class="type">NSWorkspace</span>.shared.open(url)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="/2017/07/31/macOpenURL/alert.png" alt="alert"></p>
+<h3 id="调起MyApp的两种方式"><a href="#调起MyApp的两种方式" class="headerlink" title="调起MyApp的两种方式:"></a>调起MyApp的两种方式:</h3><p>1.在浏览器中跳转：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"myapp://myhost?name=simon&amp;id=123456"</span>&gt;</span>click me<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>2.在其他app中跳转：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"myapp://host?name=simon&amp;id=123456"</span>) &#123;</div><div class="line">    <span class="type">NSWorkspace</span>.shared.open(url)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
