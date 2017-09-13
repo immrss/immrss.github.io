@@ -2,9 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2017/08/20/http/</loc>
+    <loc>http://yoursite.com/2017/09/13/websocket/</loc>
     
-    <lastmod>2017-08-20T03:51:18.000Z</lastmod>
+    <lastmod>2017-09-13T14:10:29.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/08/20/http-protocol/</loc>
+    
+    <lastmod>2017-08-20T06:10:29.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/07/31/macOpenURL/</loc>
+    
+    <lastmod>2017-08-20T06:08:25.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/08/20/webviewcookie/</loc>
+    
+    <lastmod>2017-08-20T06:07:06.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/08/20/ioshttp/</loc>
+    
+    <lastmod>2017-08-20T06:05:29.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2017/08/18/NSException/</loc>
+    
+    <lastmod>2017-08-20T06:05:08.000Z</lastmod>
     
   </url>
   
@@ -23,23 +58,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2017/08/18/NSException/</loc>
-    
-    <lastmod>2017-08-18T18:14:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/about/index.html</loc>
     
     <lastmod>2017-08-18T15:43:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/07/31/macOpenURL/</loc>
-    
-    <lastmod>2017-08-18T15:32:36.000Z</lastmod>
     
   </url>
   

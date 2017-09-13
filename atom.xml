@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-20T03:51:18.000Z</updated>
+  <updated>2017-09-13T14:10:29.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,21 +16,79 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>http</title>
-    <link href="http://yoursite.com/2017/08/20/http/"/>
-    <id>http://yoursite.com/2017/08/20/http/</id>
-    <published>2017-08-20T03:46:21.000Z</published>
-    <updated>2017-08-20T03:51:18.000Z</updated>
+    <title>Websocket原理与实践</title>
+    <link href="http://yoursite.com/2017/09/13/websocket/"/>
+    <id>http://yoursite.com/2017/09/13/websocket/</id>
+    <published>2017-09-13T14:01:13.000Z</published>
+    <updated>2017-09-13T14:10:29.000Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="http/http.jpg" alt="hhh"></p>
-<p>hahaha</p>
+    <content type="html"><![CDATA[<h3 id="检查握手"><a href="#检查握手" class="headerlink" title="检查握手"></a>检查握手</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)_checkHandshake:(<span class="built_in">CFHTTPMessageRef</span>)httpMessage;</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSString</span> *acceptHeader = <span class="built_in">CFBridgingRelease</span>(<span class="built_in">CFHTTPMessageCopyHeaderFieldValue</span>(httpMessage, <span class="built_in">CFSTR</span>(<span class="string">"Sec-WebSocket-Accept"</span>)));</div><div class="line">    <span class="keyword">if</span> (acceptHeader == <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">NSString</span> *concattedString = [_secKey stringByAppendingString:SRWebSocketAppendToSecKeyString];</div><div class="line">    <span class="built_in">NSString</span> *expectedAccept = [concattedString stringBySHA1ThenBase64Encoding];</div><div class="line">    <span class="keyword">return</span> [acceptHeader isEqualToString:expectedAccept];</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;检查握手&quot;&gt;&lt;a href=&quot;#检查握手&quot; class=&quot;headerlink&quot; title=&quot;检查握手&quot;&gt;&lt;/a&gt;检查握手&lt;/h3&gt;&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>http_protocol</title>
+    <link href="http://yoursite.com/2017/08/20/http-protocol/"/>
+    <id>http://yoursite.com/2017/08/20/http-protocol/</id>
+    <published>2017-08-20T06:07:51.000Z</published>
+    <updated>2017-08-20T06:10:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http-protocol/hehe.png" alt="logo"><br><img src="http-protocol/logo.jpg" alt="logo"></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;http/http.jpg&quot; alt=&quot;hhh&quot;&gt;&lt;/p&gt;
-&lt;p&gt;hahaha&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;http-protocol/hehe.png&quot; alt=&quot;logo&quot;&gt;&lt;br&gt;&lt;img src=&quot;http-protocol/logo.jpg&quot; alt=&quot;logo&quot;&gt;&lt;/p&gt;
 
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>webviewcookie</title>
+    <link href="http://yoursite.com/2017/08/20/webviewcookie/"/>
+    <id>http://yoursite.com/2017/08/20/webviewcookie/</id>
+    <published>2017-08-20T06:06:22.000Z</published>
+    <updated>2017-08-20T06:07:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/2017/08/20/webviewcookie/logo.jpg" alt="asd"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;/2017/08/20/webviewcookie/logo.jpg&quot; alt=&quot;asd&quot;&gt;&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>ioshttp</title>
+    <link href="http://yoursite.com/2017/08/20/ioshttp/"/>
+    <id>http://yoursite.com/2017/08/20/ioshttp/</id>
+    <published>2017-08-20T05:31:27.000Z</published>
+    <updated>2017-08-20T06:05:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="ioshttp/logo.jpg" alt="asd"></p>
+<h3 id="URI和URL、URN"><a href="#URI和URL、URN" class="headerlink" title="URI和URL、URN"></a>URI和URL、URN</h3><p>URI格式<code>scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</code></p>
+<p>根据URI解析各个内容<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> str = <span class="string">"http://simon:123456@www.simonyang.cn:8080/tags?keyword=cocoa#fragment"</span></div><div class="line"><span class="keyword">var</span> url = <span class="type">URL</span>(string: str)!</div><div class="line">url.scheme <span class="comment">// "http"</span></div><div class="line">url.user <span class="comment">// "simon"</span></div><div class="line">url.password <span class="comment">// "123456"</span></div><div class="line">url.host <span class="comment">// www.simonyang.cn</span></div><div class="line">url.port <span class="comment">// 8080</span></div><div class="line">url.path <span class="comment">// "/tags"</span></div><div class="line">url.query <span class="comment">// "keyword=cocoa"</span></div><div class="line">url.fragment <span class="comment">// "fragment"</span></div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;ioshttp/logo.jpg&quot; alt=&quot;asd&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;URI和URL、URN&quot;&gt;&lt;a href=&quot;#URI和URL、URN&quot; class=&quot;headerlink&quot; title=&quot;URI和URL、URN&quot;&gt;&lt;/a&gt;URI和URL
     
     </summary>
     
@@ -42,7 +100,7 @@
     <link href="http://yoursite.com/2017/08/18/NSException/"/>
     <id>http://yoursite.com/2017/08/18/NSException/</id>
     <published>2017-08-18T15:55:01.000Z</published>
-    <updated>2017-08-18T18:14:46.000Z</updated>
+    <updated>2017-08-20T06:05:08.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建异常</span></div><div class="line">[<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line">[[<span class="built_in">NSException</span> alloc]initWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line"></div><div class="line"><span class="comment">//实例方法抛出异常</span></div><div class="line">[exception raise];</div><div class="line"></div><div class="line"><span class="comment">//类方法抛出异常</span></div><div class="line">[<span class="built_in">NSException</span> raise:<span class="built_in">NSInvalidArgumentException</span> format:<span class="string">@"数组越界啦"</span>];</div><div class="line"></div><div class="line"><span class="comment">//@throw关键字</span></div><div class="line"><span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div></pre></td></tr></table></figure>
 <p>控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">*** Terminating app due to uncaught exception &apos;NSInvalidArgumentException&apos;, reason: &apos;数组越界啦&apos;</div><div class="line">*** First throw call stack:</div><div class="line">(</div><div class="line">	0   CoreFoundation                      0x0000000102d8979b __exceptionPreprocess + 171</div><div class="line">	1   libobjc.A.dylib                     0x00000001026eb121 objc_exception_throw + 48</div><div class="line">	2   CoreFoundation                      0x0000000102e02b25 +[NSException raise:format:] + 197</div><div class="line">	3   exc                                 0x0000000101de049f -[ViewController viewDidLoad] + 95</div><div class="line">	4   UIKit                               0x000000010339d4ec -[UIViewController loadViewIfRequired] + 1235</div><div class="line">	5   UIKit                               0x000000010339d939 -[UIViewController view] + 27</div><div class="line">	6   UIKit                               0x0000000103278903 -[UIWindow addRootViewControllerViewIfPossible] + 122</div><div class="line">	7   UIKit                               0x0000000103278ff5 -[UIWindow _setHidden:forced:] + 294</div><div class="line">	8   UIKit                               0x000000010328bd3b -[UIWindow makeKeyAndVisible] + 42</div><div class="line">	9   UIKit                               0x00000001032011a4 -[UIApplication _callInitializationDelegatesForMainScene:transitionContext:] + 4711</div><div class="line">	10  UIKit                               0x00000001032065cd -[UIApplication _runWithMainScene:transitionContext:completion:] + 1720</div><div class="line">	11  UIKit                               0x00000001035a3d3d __111-[__UICanvasLifecycleMonitor_Compatability _scheduleFirstCommitForScene:transition:firstActivation:completion:]_block_invoke + 111</div><div class="line">	12  UIKit                               0x000000010395b86d +[_UICanvas _enqueuePostSettingUpdateTransactionBlock:] + 153</div><div class="line">	13  UIKit                               0x00000001035a3c63 -[__UICanvasLifecycleMonitor_Compatability _scheduleFirstCommitForScene:transition:firstActivation:completion:] + 249</div><div class="line">	14  UIKit                               0x00000001035a3fff -[__UICanvasLifecycleMonitor_Compatability activateEventsOnly:withContext:completion:] + 530</div><div class="line">	15  UIKit                               0x0000000103ec010a __82-[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:completion:]_block_invoke + 259</div><div class="line">	16  UIKit                               0x0000000103ebffc6 -[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:completion:] + 444</div><div class="line">	17  UIKit                               0x0000000103bc752d __125-[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:settingsDiff:fromSettings:transitionContext:]_block_invoke + 221</div><div class="line">	18  UIKit                               0x0000000103db55fa _performActionsWithDelayForTransitionContext + 100</div><div class="line">	19  UIKit                               0x0000000103bc73f0 -[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 231</div><div class="line">	20  UIKit                               0x000000010395aeca -[_UICanvas scene:didUpdateWithDiff:transitionContext:completion:] + 392</div><div class="line">	21  UIKit                               0x0000000103204e80 -[UIApplication workspace:didCreateScene:withTransitionContext:completion:] + 664</div><div class="line">	22  UIKit                               0x00000001037a2094 -[UIApplicationSceneClientAgent scene:didInitializeWithEvent:completion:] + 369</div><div class="line">	23  FrontBoardServices                  0x00000001071e05c8 -[FBSSceneImpl _didCreateWithTransitionContext:completion:] + 338</div><div class="line">	24  FrontBoardServices                  0x00000001071e9025 __56-[FBSWorkspace client:handleCreateScene:withCompletion:]_block_invoke_2 + 235</div><div class="line">	25  libdispatch.dylib                   0x00000001065e5658 _dispatch_client_callout + 8</div><div class="line">	26  libdispatch.dylib                   0x00000001065eae6b _dispatch_block_invoke_direct + 589</div><div class="line">	27  FrontBoardServices                  0x00000001072147e3 __FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 24</div><div class="line">	28  FrontBoardServices                  0x0000000107214499 -[FBSSerialQueue _performNext] + 464</div><div class="line">	29  FrontBoardServices                  0x0000000107214a08 -[FBSSerialQueue _performNextFromRunLoopSource] + 45</div><div class="line">	30  CoreFoundation                      0x0000000102d2ce71 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 17</div><div class="line">	31  CoreFoundation                      0x0000000102d1156f __CFRunLoopDoSources0 + 271</div><div class="line">	32  CoreFoundation                      0x0000000102d10b1f __CFRunLoopRun + 1039</div><div class="line">	33  CoreFoundation                      0x0000000102d10499 CFRunLoopRunSpecific + 409</div><div class="line">	34  GraphicsServices                    0x0000000107b229d7 GSEventRunModal + 62</div><div class="line">	35  UIKit                               0x00000001032080b8 UIApplicationMain + 159</div><div class="line">	36  exc                                 0x0000000101de055f main + 111</div><div class="line">	37  libdyld.dylib                       0x0000000106666771 start + 1</div><div class="line">	38  ???                                 0x0000000000000001 0x0 + 1</div><div class="line">)</div><div class="line">libc++abi.dylib: terminating with uncaught exception of type NSException</div></pre></td></tr></table></figure></p>
@@ -69,7 +127,7 @@
     <link href="http://yoursite.com/2017/07/31/macOpenURL/"/>
     <id>http://yoursite.com/2017/07/31/macOpenURL/</id>
     <published>2017-07-31T07:52:41.000Z</published>
-    <updated>2017-08-18T15:32:36.000Z</updated>
+    <updated>2017-08-20T06:08:25.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="在info-plist中添加URL-Schememyapp"><a href="#在info-plist中添加URL-Schememyapp" class="headerlink" title="在info.plist中添加URL Schememyapp"></a>在<code>info.plist</code>中添加URL Scheme<code>myapp</code></h3><h3 id="在applicationWillFinishLaunching中注册URL事件"><a href="#在applicationWillFinishLaunching中注册URL事件" class="headerlink" title="在applicationWillFinishLaunching中注册URL事件"></a>在<code>applicationWillFinishLaunching</code>中注册URL事件</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">applicationWillFinishLaunching</span><span class="params">(<span class="number">_</span> notification: Notification)</span></span> &#123;</div><div class="line">    <span class="type">NSAppleEventManager</span>.shared().setEventHandler(<span class="keyword">self</span>, andSelector: #selector(handleURL(event:with:)), forEventClass: <span class="type">AEEventClass</span>(kInternetEventClass), andEventID: <span class="type">AEEventID</span>(kAEGetURL))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleURL</span><span class="params">(event: NSAppleEventDescriptor, with replyEvent: NSAppleEventDescriptor)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> eventDesc = event.paramDescriptor(forKeyword: keyDirectObject)</div><div class="line">    <span class="keyword">let</span> url = eventDesc?.stringValue</div><div class="line">    <span class="keyword">let</span> alert = <span class="type">NSAlert</span>()</div><div class="line">    alert.messageText = <span class="string">"handleURL"</span></div><div class="line">    alert.informativeText = url ?? <span class="string">"error"</span></div><div class="line">    alert.addButton(withTitle: <span class="string">"done"</span>)</div><div class="line">    alert.runModal()</div><div class="line">&#125;</div></pre></td></tr></table></figure>

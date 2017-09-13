@@ -17,7 +17,7 @@
 
 
 
-  <meta name="description" content="http"/>
+  <meta name="description" content="Websocket原理与实践"/>
 
 
 
@@ -40,7 +40,7 @@
 
 
 
-<link rel="canonical" href="http://yoursite.com/2017/08/20/http/"/>
+<link rel="canonical" href="http://yoursite.com/2017/09/13/websocket/"/>
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.5.0" />
@@ -71,7 +71,7 @@
 
 
 
-    <title> http - Simon </title>
+    <title> Websocket原理与实践 - Simon </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -187,13 +187,13 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          http
+          Websocket原理与实践
         
       </h1>
 
       <div class="post-meta">
         <span class="post-time">
-          2017-08-20
+          2017-09-13
         </span>
         
       </div>
@@ -201,12 +201,17 @@
 
     
     
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#检查握手"><span class="toc-text">检查握手</span></a></li></ol>
+    </div>
+  </div>
+
 
     <div class="post-content">
       
-        <p><img src="http/http.jpg" alt="hhh"></p>
-<p>hahaha</p>
-
+        <h3 id="检查握手"><a href="#检查握手" class="headerlink" title="检查握手"></a>检查握手</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)_checkHandshake:(<span class="built_in">CFHTTPMessageRef</span>)httpMessage;</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSString</span> *acceptHeader = <span class="built_in">CFBridgingRelease</span>(<span class="built_in">CFHTTPMessageCopyHeaderFieldValue</span>(httpMessage, <span class="built_in">CFSTR</span>(<span class="string">"Sec-WebSocket-Accept"</span>)));</div><div class="line">    <span class="keyword">if</span> (acceptHeader == <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">NSString</span> *concattedString = [_secKey stringByAppendingString:SRWebSocketAppendToSecKeyString];</div><div class="line">    <span class="built_in">NSString</span> *expectedAccept = [concattedString stringBySHA1ThenBase64Encoding];</div><div class="line">    <span class="keyword">return</span> [acceptHeader isEqualToString:expectedAccept];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -227,9 +232,9 @@
         
   <nav class="post-nav">
     
-      <a class="prev" href="/2017/08/18/NSException/">
+      <a class="prev" href="/2017/08/20/http-protocol/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">OC中的异常</span>
+        <span class="prev-text nav-default">http_protocol</span>
         <span class="prev-text nav-mobile">Prev</span>
       </a>
     

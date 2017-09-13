@@ -17,7 +17,7 @@
 
 
 
-  <meta name="description" content="iOS developer"/>
+  <meta name="description" content="ioshttp"/>
 
 
 
@@ -40,7 +40,7 @@
 
 
 
-<link rel="canonical" href="http://yoursite.com/archives/"/>
+<link rel="canonical" href="http://yoursite.com/2017/08/20/ioshttp/"/>
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.5.0" />
@@ -71,11 +71,7 @@
 
 
 
-    <title>
-  
-    Archives - Simon
-  
-</title>
+    <title> ioshttp - Simon </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -187,240 +183,85 @@
           <div id="content" class="content">
             
   
-  <section id="archive" class="archive">
-    
-      
-        <div class="archive-title">
-          <span class="archive-post-counter">
-            13 Posts In Total
-          </span>
-        </div>
-      
-    
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          ioshttp
+        
+      </h1>
 
-    
-      
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h2 class="archive-year">2017</h2>
-          </div>
-        
-      
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            09-13
-          
+      <div class="post-meta">
+        <span class="post-time">
+          2017-08-20
         </span>
-        <span class="archive-post-title">
-          <a href="/2017/09/13/websocket/" class="archive-post-link">
-            Websocket原理与实践
-          </a>
-        </span>
+        
       </div>
-    
-      
-        
-        
+    </header>
 
-        
-      
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            08-20
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/08/20/http-protocol/" class="archive-post-link">
-            http_protocol
-          </a>
-        </span>
-      </div>
     
-      
-        
-        
+    
+  <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#URI和URL、URN"><span class="toc-text">URI和URL、URN</span></a></li></ol>
+    </div>
+  </div>
 
-        
-      
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            08-20
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/08/20/webviewcookie/" class="archive-post-link">
-            webviewcookie
-          </a>
-        </span>
-      </div>
-    
-      
-        
-        
 
-        
+    <div class="post-content">
       
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            08-20
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/08/20/ioshttp/" class="archive-post-link">
-            ioshttp
-          </a>
-        </span>
-      </div>
-    
-      
-        
-        
+        <p><img src="ioshttp/logo.jpg" alt="asd"></p>
+<h3 id="URI和URL、URN"><a href="#URI和URL、URN" class="headerlink" title="URI和URL、URN"></a>URI和URL、URN</h3><p>URI格式<code>scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</code></p>
+<p>根据URI解析各个内容<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> str = <span class="string">"http://simon:123456@www.simonyang.cn:8080/tags?keyword=cocoa#fragment"</span></div><div class="line"><span class="keyword">var</span> url = <span class="type">URL</span>(string: str)!</div><div class="line">url.scheme <span class="comment">// "http"</span></div><div class="line">url.user <span class="comment">// "simon"</span></div><div class="line">url.password <span class="comment">// "123456"</span></div><div class="line">url.host <span class="comment">// www.simonyang.cn</span></div><div class="line">url.port <span class="comment">// 8080</span></div><div class="line">url.path <span class="comment">// "/tags"</span></div><div class="line">url.query <span class="comment">// "keyword=cocoa"</span></div><div class="line">url.fragment <span class="comment">// "fragment"</span></div></pre></td></tr></table></figure></p>
 
-        
       
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            08-18
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/08/18/NSException/" class="archive-post-link">
-            OC中的异常
-          </a>
-        </span>
-      </div>
-    
-      
-        
-        
+    </div>
 
-        
-      
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            07-31
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/07/31/macOpenURL/" class="archive-post-link">
-            mac OpenURL
-          </a>
-        </span>
-      </div>
     
       
-        
-        
+      
 
-        
-      
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            06-21
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/06/21/MedianofTwoSortedArrays/" class="archive-post-link">
-            Median of Two Sorted Arrays
-          </a>
-        </span>
-      </div>
-    
-      
-        
-        
 
-        
-      
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            06-06
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/06/06/FileHandle/" class="archive-post-link">
-            使用FileHandle读写文件
-          </a>
-        </span>
-      </div>
-    
-      
-        
-        
 
-        
       
       
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            05-02
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/05/02/WebKit/" class="archive-post-link">
-            WKWebView和Native通信
-          </a>
-        </span>
-      </div>
     
-      
-        
-        
 
+    
+      <footer class="post-footer">
         
-      
-      
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            04-24
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/04/24/Dispatch/" class="archive-post-link">
-            Swift中使用GCD
-          </a>
-        </span>
-      </div>
+        
+        
+  <nav class="post-nav">
     
-  </section>
-
-  
-  <nav class="pagination">
+      <a class="prev" href="/2017/08/18/NSException/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">OC中的异常</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
     
     
-      <a class="next" href="/archives/page/2/">
-        <span class="next-text">Next</span>
+      <a class="next" href="/2017/08/20/webviewcookie/">
+        <span class="next-text nav-default">webviewcookie</span>
+        <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
     
   </nav>
 
+      </footer>
+    
+
+  </article>
 
 
           </div>
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>  
       </main>
@@ -496,6 +337,8 @@
     </div>
 
     
+  
+
 
 
     
