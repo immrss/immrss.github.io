@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="FMDatabaseQueue"/>
+
+
+
+
+  <meta name="keywords" content="fmdb, 线程安全, Simon" />
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Simon">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://simonyang.cn/2017/12/18/fmdb-safe/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+    <title> FMDatabaseQueue - Simon </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Simon</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            About
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Simon</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              About
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          FMDatabaseQueue
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-12-18
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        <p>在数据库使用过程中，如果涉及到多线程访问，会有线程安全。<code>FMDatabase</code>实例是非线程安全的，你只能同一个线程访问它。fmdb提供了<code>FMDatabaseQueue</code>来实现多线程下数据库操作。<br><a id="more"></a></p>
+<h4 id="多线程操作实例"><a href="#多线程操作实例" class="headerlink" title="多线程操作实例"></a>多线程操作实例</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *path = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>)[<span class="number">0</span>];</div><div class="line">path = [path stringByAppendingPathComponent:<span class="string">@"test.db"</span>];</div><div class="line">_databaseQueue = [FMDatabaseQueue databaseQueueWithPath:path];</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        <span class="built_in">BOOL</span> bo = [db executeUpdate:<span class="string">@"create table if not exists t_person (id integer primary key autoincrement,name text not null,age integer);"</span>];</div><div class="line">        <span class="keyword">if</span> (bo) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"建表成功 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"建表失败 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        <span class="built_in">BOOL</span> bo = [db executeUpdate:<span class="string">@"insert into t_person(name ,age) values(?,?);"</span>,<span class="string">@"simon"</span>,<span class="string">@"26"</span>];</div><div class="line">        <span class="keyword">if</span> (bo) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"插入成功 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"插入失败 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        FMResultSet * set = [db executeQuery:<span class="string">@"select * from t_person;"</span>];</div><div class="line">        <span class="keyword">if</span> ([set next]) &#123;</div><div class="line">            <span class="built_in">NSString</span> *name = [set stringForColumn:<span class="string">@"name"</span>];</div><div class="line">            <span class="built_in">NSInteger</span> age = [set intForColumn:<span class="string">@"age"</span>];</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"name = %@,age = %ld  thread: %@"</span>,name,age,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"查询出错 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>输入结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">建表成功 thread: &lt;NSThread: 0x60400006ba00&gt;&#123;number = 3, name = (null)&#125;</div><div class="line">插入成功 thread: &lt;NSThread: 0x60400006bf40&gt;&#123;number = 4, name = (null)&#125;</div><div class="line">name = simon,age = 26  thread: &lt;NSThread: 0x60c00006e040&gt;&#123;number = 5, name = (null)&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到数据库每一步操作都是在不同的线程执行的，而且执行的顺序和添加的顺序一致。</p>
+<p>FMDatabaseQueue内部会新建一个串行队列queue，并为queue关联一个上下文值，这里设置为当前对象self。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">_queue = dispatch_queue_create([[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"fmdb.%@"</span>, <span class="keyword">self</span>] UTF8String], <span class="literal">NULL</span>);</div><div class="line">dispatch_queue_set_specific(_queue, kDispatchQueueSpecificKey, (__bridge <span class="keyword">void</span> *)<span class="keyword">self</span>, <span class="literal">NULL</span>);</div></pre></td></tr></table></figure></p>
+<p>在操做数据库之前，根据<code>kDispatchQueueSpecificKey</code>获取当前队列的上下文值。如果该值等于<code>self</code>，表名当前执行队列就是内部的串行队列<code>queue</code>，会触发断言，否则以下的操作会造成死锁。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">FMDatabaseQueue *currentSyncQueue = (__bridge <span class="keyword">id</span>)dispatch_get_specific(kDispatchQueueSpecificKey);</div><div class="line">assert(currentSyncQueue != <span class="keyword">self</span> &amp;&amp; <span class="string">"inDatabase: was called reentrantly on the same queue, which would lead to a deadlock"</span>);</div></pre></td></tr></table></figure></p>
+<p>在串行队列<code>queue</code>里同步执行<code>block</code>，将内部的<code>database</code>对象传给调用方。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">- (FMDatabase*)database &#123;</div><div class="line">    <span class="keyword">if</span> (!_db) &#123;</div><div class="line">       _db = FMDBReturnRetained([[[<span class="keyword">self</span> <span class="keyword">class</span>] databaseClass] databaseWithPath:_path]);</div><div class="line"><span class="meta">#if SQLITE_VERSION_NUMBER &gt;= 3005000</span></div><div class="line">        <span class="built_in">BOOL</span> success = [_db openWithFlags:_openFlags vfs:_vfsName];</div><div class="line"><span class="meta">#else</span></div><div class="line">        <span class="built_in">BOOL</span> success = [_db open];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> _db;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>aasdasd</p>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_sync</span>(_queue, ^() &#123;</div><div class="line">    FMDatabase *db = [<span class="keyword">self</span> database];</div><div class="line">    block(db);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/fmdb/">fmdb</a>
+            
+              <a href="/tags/线程安全/">线程安全</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/11/17/fmdborm/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">fmdb</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+<div class="copyright">
+  <span class="copyright-year">
+    
+    &copy; 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Simon</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

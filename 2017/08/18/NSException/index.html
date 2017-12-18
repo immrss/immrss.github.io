@@ -1,4 +1,202 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Simons</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Simon</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li><li class="menu-item"><a href="/about/" target="_self">ABOUT</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">OC中的异常</h1><div class="post-info">Aug 18th 2017</div><div class="post-entry"><h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建异常</span></div><div class="line">[<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line">[[<span class="built_in">NSException</span> alloc]initWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line"></div><div class="line"><span class="comment">//实例方法抛出异常</span></div><div class="line">[exception raise];</div><div class="line"></div><div class="line"><span class="comment">//类方法抛出异常</span></div><div class="line">[<span class="built_in">NSException</span> raise:<span class="built_in">NSInvalidArgumentException</span> format:<span class="string">@"数组越界啦"</span>];</div><div class="line"></div><div class="line"><span class="comment">//@throw关键字</span></div><div class="line"><span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div></pre></td></tr></table></figure>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+
+  <meta name="description" content="OC中的异常"/>
+
+
+
+
+  <meta name="keywords" content="Foundation, Simon" />
+
+
+
+
+
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Simon">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.6.0" />
+
+
+
+<link rel="canonical" href="http://simonyang.cn/2017/08/18/NSException/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
+
+
+
+
+
+
+  
+
+
+
+  <script id="baidu_push">
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+
+
+
+
+
+    <title> OC中的异常 - Simon </title>
+  </head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Simon</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    
+      <a href="/">
+        <li class="mobile-menu-item">
+          
+          
+            Home
+          
+        </li>
+      </a>
+    
+      <a href="/archives/">
+        <li class="mobile-menu-item">
+          
+          
+            Archives
+          
+        </li>
+      </a>
+    
+      <a href="/about">
+        <li class="mobile-menu-item">
+          
+          
+            About
+          
+        </li>
+      </a>
+    
+  </ul>
+</nav>
+
+    <div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Simon</a>
+</div>
+
+<nav class="site-navbar">
+  
+    <ul id="menu" class="menu">
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/">
+            
+            
+              Home
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            
+            
+              Archives
+            
+          </a>
+        </li>
+      
+        <li class="menu-item">
+          <a class="menu-item-link" href="/about">
+            
+            
+              About
+            
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+      </header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content">
+            
+  
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          OC中的异常
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2017-08-18
+        </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        <p>NSException<br><a id="more"></a></p>
+<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建异常</span></div><div class="line">[<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line">[[<span class="built_in">NSException</span> alloc]initWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line"></div><div class="line"><span class="comment">//实例方法抛出异常</span></div><div class="line">[exception raise];</div><div class="line"></div><div class="line"><span class="comment">//类方法抛出异常</span></div><div class="line">[<span class="built_in">NSException</span> raise:<span class="built_in">NSInvalidArgumentException</span> format:<span class="string">@"数组越界啦"</span>];</div><div class="line"></div><div class="line"><span class="comment">//@throw关键字</span></div><div class="line"><span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div></pre></td></tr></table></figure>
 <p>控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">*** Terminating app due to uncaught exception &apos;NSInvalidArgumentException&apos;, reason: &apos;数组越界啦&apos;</div><div class="line">*** First throw call stack:</div><div class="line">(</div><div class="line">	0   CoreFoundation                      0x0000000102d8979b __exceptionPreprocess + 171</div><div class="line">	1   libobjc.A.dylib                     0x00000001026eb121 objc_exception_throw + 48</div><div class="line">	2   CoreFoundation                      0x0000000102e02b25 +[NSException raise:format:] + 197</div><div class="line">	3   exc                                 0x0000000101de049f -[ViewController viewDidLoad] + 95</div><div class="line">	4   UIKit                               0x000000010339d4ec -[UIViewController loadViewIfRequired] + 1235</div><div class="line">	5   UIKit                               0x000000010339d939 -[UIViewController view] + 27</div><div class="line">	6   UIKit                               0x0000000103278903 -[UIWindow addRootViewControllerViewIfPossible] + 122</div><div class="line">	7   UIKit                               0x0000000103278ff5 -[UIWindow _setHidden:forced:] + 294</div><div class="line">	8   UIKit                               0x000000010328bd3b -[UIWindow makeKeyAndVisible] + 42</div><div class="line">	9   UIKit                               0x00000001032011a4 -[UIApplication _callInitializationDelegatesForMainScene:transitionContext:] + 4711</div><div class="line">	10  UIKit                               0x00000001032065cd -[UIApplication _runWithMainScene:transitionContext:completion:] + 1720</div><div class="line">	11  UIKit                               0x00000001035a3d3d __111-[__UICanvasLifecycleMonitor_Compatability _scheduleFirstCommitForScene:transition:firstActivation:completion:]_block_invoke + 111</div><div class="line">	12  UIKit                               0x000000010395b86d +[_UICanvas _enqueuePostSettingUpdateTransactionBlock:] + 153</div><div class="line">	13  UIKit                               0x00000001035a3c63 -[__UICanvasLifecycleMonitor_Compatability _scheduleFirstCommitForScene:transition:firstActivation:completion:] + 249</div><div class="line">	14  UIKit                               0x00000001035a3fff -[__UICanvasLifecycleMonitor_Compatability activateEventsOnly:withContext:completion:] + 530</div><div class="line">	15  UIKit                               0x0000000103ec010a __82-[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:completion:]_block_invoke + 259</div><div class="line">	16  UIKit                               0x0000000103ebffc6 -[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:completion:] + 444</div><div class="line">	17  UIKit                               0x0000000103bc752d __125-[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:settingsDiff:fromSettings:transitionContext:]_block_invoke + 221</div><div class="line">	18  UIKit                               0x0000000103db55fa _performActionsWithDelayForTransitionContext + 100</div><div class="line">	19  UIKit                               0x0000000103bc73f0 -[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 231</div><div class="line">	20  UIKit                               0x000000010395aeca -[_UICanvas scene:didUpdateWithDiff:transitionContext:completion:] + 392</div><div class="line">	21  UIKit                               0x0000000103204e80 -[UIApplication workspace:didCreateScene:withTransitionContext:completion:] + 664</div><div class="line">	22  UIKit                               0x00000001037a2094 -[UIApplicationSceneClientAgent scene:didInitializeWithEvent:completion:] + 369</div><div class="line">	23  FrontBoardServices                  0x00000001071e05c8 -[FBSSceneImpl _didCreateWithTransitionContext:completion:] + 338</div><div class="line">	24  FrontBoardServices                  0x00000001071e9025 __56-[FBSWorkspace client:handleCreateScene:withCompletion:]_block_invoke_2 + 235</div><div class="line">	25  libdispatch.dylib                   0x00000001065e5658 _dispatch_client_callout + 8</div><div class="line">	26  libdispatch.dylib                   0x00000001065eae6b _dispatch_block_invoke_direct + 589</div><div class="line">	27  FrontBoardServices                  0x00000001072147e3 __FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 24</div><div class="line">	28  FrontBoardServices                  0x0000000107214499 -[FBSSerialQueue _performNext] + 464</div><div class="line">	29  FrontBoardServices                  0x0000000107214a08 -[FBSSerialQueue _performNextFromRunLoopSource] + 45</div><div class="line">	30  CoreFoundation                      0x0000000102d2ce71 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 17</div><div class="line">	31  CoreFoundation                      0x0000000102d1156f __CFRunLoopDoSources0 + 271</div><div class="line">	32  CoreFoundation                      0x0000000102d10b1f __CFRunLoopRun + 1039</div><div class="line">	33  CoreFoundation                      0x0000000102d10499 CFRunLoopRunSpecific + 409</div><div class="line">	34  GraphicsServices                    0x0000000107b229d7 GSEventRunModal + 62</div><div class="line">	35  UIKit                               0x00000001032080b8 UIApplicationMain + 159</div><div class="line">	36  exc                                 0x0000000101de055f main + 111</div><div class="line">	37  libdyld.dylib                       0x0000000106666771 start + 1</div><div class="line">	38  ???                                 0x0000000000000001 0x0 + 1</div><div class="line">)</div><div class="line">libc++abi.dylib: terminating with uncaught exception of type NSException</div></pre></td></tr></table></figure></p>
 <p>抛出异常的信息不仅有<code>name</code>、<code>reason</code>还有异常抛出时的方法调用栈<code>callStackSymbols</code>。</p>
 <h3 id="常见异常"><a href="#常见异常" class="headerlink" title="常见异常"></a>常见异常</h3><h4 id="NSInvalidArgumentException"><a href="#NSInvalidArgumentException" class="headerlink" title="NSInvalidArgumentException"></a>NSInvalidArgumentException</h4><p>参数错误，常见的有数组或字典插入nil对象、调用不存在的方法都会抛出该NSExceptionName的异常。</p>
@@ -7,4 +205,110 @@
 <p>控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">try</div><div class="line">*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[0]</div><div class="line">finally</div></pre></td></tr></table></figure></p>
 <h3 id="异常收集"><a href="#异常收集" class="headerlink" title="异常收集"></a>异常收集</h3><p>当app抛出异常时，我们需要及时的收集这些异常信息，以便我们定位问题并修复BUG。系统为我们提供了<code>NSSetUncaughtExceptionHandler()</code>函数，该函数接受一个c的函数指针，当抛出异常就会回调该函数，并传入异常对象。在这个函数中我们可以将异常的详情存到沙盒或者传到服务器（<strong>必须为同步方式上传，因为这个函数return之后，程序就退出了</strong>）。</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> uncaughtExceptionHandler(<span class="built_in">NSException</span> *exception) &#123;</div><div class="line">    <span class="built_in">NSString</span> *documentDirectory = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>)[<span class="number">0</span>];</div><div class="line">    <span class="built_in">NSString</span> *filePath = [documentDirectory stringByAppendingPathComponent:<span class="string">@"exception.log"</span>];</div><div class="line">    <span class="built_in">NSString</span> *log = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@ \n %@"</span>,exception,exception.callStackSymbols];</div><div class="line">    [log writeToFile:filePath atomically:<span class="literal">YES</span> encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">NULL</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</div><div class="line">    <span class="built_in">NSSetUncaughtExceptionHandler</span>(uncaughtExceptionHandler);</div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2017/07/31/macOpenURL/" class="prev-post">mac OpenURL</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2017/08/20/ioshttp/" class="next-post">ioshttp</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>© 2017 <i class="fa fa-heart"></i> SIMON</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>
+
+      
+    </div>
+
+    
+      
+      
+
+
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Foundation/">Foundation</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/06/06/FileHandle/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">使用FileHandle读写文件</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/08/20/sqlite/">
+        <span class="next-text nav-default">Sqlite操作汇总</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+      </footer>
+    
+
+  </article>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+      </main>
+
+      <footer id="footer" class="footer">
+
+<div class="copyright">
+  <span class="copyright-year">
+    
+    &copy; 
+    
+    2017
+
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Simon</span>
+  </span>
+</div>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+
+    
+  
+
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+    <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  
+
+  
+
+
+    <script type="text/javascript" src="/js/src/even.js?v=2.6.0"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=2.6.0"></script>
+
+  </body>
+</html>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Simons</title>
-  <subtitle>宁静致远</subtitle>
+  <title>Simon</title>
+  <subtitle>Thinking and writing</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
-  <updated>2017-09-15T17:38:24.000Z</updated>
-  <id>http://yoursite.com/</id>
+  <link href="http://simonyang.cn/"/>
+  <updated>2017-12-18T15:08:35.000Z</updated>
+  <id>http://simonyang.cn/</id>
   
   <author>
     <name>Simon</name>
@@ -16,13 +16,111 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Websocket原理与实践</title>
-    <link href="http://yoursite.com/2017/09/13/websocket/"/>
-    <id>http://yoursite.com/2017/09/13/websocket/</id>
-    <published>2017-09-13T14:01:13.000Z</published>
-    <updated>2017-09-15T17:38:24.000Z</updated>
+    <title>FMDatabaseQueue</title>
+    <link href="http://simonyang.cn/2017/12/18/fmdb-safe/"/>
+    <id>http://simonyang.cn/2017/12/18/fmdb-safe/</id>
+    <published>2017-12-18T14:35:10.000Z</published>
+    <updated>2017-12-18T15:08:35.000Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="/2017/09/13/websocket/logo.jpg" alt=""></p>
+    <content type="html"><![CDATA[<p>在数据库使用过程中，如果涉及到多线程访问，会有线程安全。<code>FMDatabase</code>实例是非线程安全的，你只能同一个线程访问它。fmdb提供了<code>FMDatabaseQueue</code>来实现多线程下数据库操作。<br><a id="more"></a></p>
+<h4 id="多线程操作实例"><a href="#多线程操作实例" class="headerlink" title="多线程操作实例"></a>多线程操作实例</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *path = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>)[<span class="number">0</span>];</div><div class="line">path = [path stringByAppendingPathComponent:<span class="string">@"test.db"</span>];</div><div class="line">_databaseQueue = [FMDatabaseQueue databaseQueueWithPath:path];</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        <span class="built_in">BOOL</span> bo = [db executeUpdate:<span class="string">@"create table if not exists t_person (id integer primary key autoincrement,name text not null,age integer);"</span>];</div><div class="line">        <span class="keyword">if</span> (bo) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"建表成功 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"建表失败 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        <span class="built_in">BOOL</span> bo = [db executeUpdate:<span class="string">@"insert into t_person(name ,age) values(?,?);"</span>,<span class="string">@"simon"</span>,<span class="string">@"26"</span>];</div><div class="line">        <span class="keyword">if</span> (bo) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"插入成功 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"插入失败 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        FMResultSet * set = [db executeQuery:<span class="string">@"select * from t_person;"</span>];</div><div class="line">        <span class="keyword">if</span> ([set next]) &#123;</div><div class="line">            <span class="built_in">NSString</span> *name = [set stringForColumn:<span class="string">@"name"</span>];</div><div class="line">            <span class="built_in">NSInteger</span> age = [set intForColumn:<span class="string">@"age"</span>];</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"name = %@,age = %ld  thread: %@"</span>,name,age,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"查询出错 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>输入结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">建表成功 thread: &lt;NSThread: 0x60400006ba00&gt;&#123;number = 3, name = (null)&#125;</div><div class="line">插入成功 thread: &lt;NSThread: 0x60400006bf40&gt;&#123;number = 4, name = (null)&#125;</div><div class="line">name = simon,age = 26  thread: &lt;NSThread: 0x60c00006e040&gt;&#123;number = 5, name = (null)&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到数据库每一步操作都是在不同的线程执行的，而且执行的顺序和添加的顺序一致。</p>
+<p>FMDatabaseQueue内部会新建一个串行队列queue，并为queue关联一个上下文值，这里设置为当前对象self。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">_queue = dispatch_queue_create([[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"fmdb.%@"</span>, <span class="keyword">self</span>] UTF8String], <span class="literal">NULL</span>);</div><div class="line">dispatch_queue_set_specific(_queue, kDispatchQueueSpecificKey, (__bridge <span class="keyword">void</span> *)<span class="keyword">self</span>, <span class="literal">NULL</span>);</div></pre></td></tr></table></figure></p>
+<p>在操做数据库之前，根据<code>kDispatchQueueSpecificKey</code>获取当前队列的上下文值。如果该值等于<code>self</code>，表名当前执行队列就是内部的串行队列<code>queue</code>，会触发断言，否则以下的操作会造成死锁。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">FMDatabaseQueue *currentSyncQueue = (__bridge <span class="keyword">id</span>)dispatch_get_specific(kDispatchQueueSpecificKey);</div><div class="line">assert(currentSyncQueue != <span class="keyword">self</span> &amp;&amp; <span class="string">"inDatabase: was called reentrantly on the same queue, which would lead to a deadlock"</span>);</div></pre></td></tr></table></figure></p>
+<p>在串行队列<code>queue</code>里同步执行<code>block</code>，将内部的<code>database</code>对象传给调用方。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">- (FMDatabase*)database &#123;</div><div class="line">    <span class="keyword">if</span> (!_db) &#123;</div><div class="line">       _db = FMDBReturnRetained([[[<span class="keyword">self</span> <span class="keyword">class</span>] databaseClass] databaseWithPath:_path]);</div><div class="line"><span class="meta">#if SQLITE_VERSION_NUMBER &gt;= 3005000</span></div><div class="line">        <span class="built_in">BOOL</span> success = [_db openWithFlags:_openFlags vfs:_vfsName];</div><div class="line"><span class="meta">#else</span></div><div class="line">        <span class="built_in">BOOL</span> success = [_db open];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> _db;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>aasdasd</p>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_sync</span>(_queue, ^() &#123;</div><div class="line">    FMDatabase *db = [<span class="keyword">self</span> database];</div><div class="line">    block(db);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在数据库使用过程中，如果涉及到多线程访问，会有线程安全。&lt;code&gt;FMDatabase&lt;/code&gt;实例是非线程安全的，你只能同一个线程访问它。fmdb提供了&lt;code&gt;FMDatabaseQueue&lt;/code&gt;来实现多线程下数据库操作。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="fmdb" scheme="http://simonyang.cn/tags/fmdb/"/>
+    
+      <category term="线程安全" scheme="http://simonyang.cn/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>fmdb</title>
+    <link href="http://simonyang.cn/2017/11/17/fmdborm/"/>
+    <id>http://simonyang.cn/2017/11/17/fmdborm/</id>
+    <published>2017-11-16T16:30:54.000Z</published>
+    <updated>2017-11-16T16:35:41.292Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="sqlite" scheme="http://simonyang.cn/tags/sqlite/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FMDB的一些实现细节</title>
+    <link href="http://simonyang.cn/2017/11/17/fmdb/"/>
+    <id>http://simonyang.cn/2017/11/17/fmdb/</id>
+    <published>2017-11-16T16:30:44.000Z</published>
+    <updated>2017-11-16T16:35:46.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="sqlite" scheme="http://simonyang.cn/tags/sqlite/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用SQLCipher加密sqlite数据库</title>
+    <link href="http://simonyang.cn/2017/11/17/SQLCipher/"/>
+    <id>http://simonyang.cn/2017/11/17/SQLCipher/</id>
+    <published>2017-11-16T16:29:57.000Z</published>
+    <updated>2017-11-16T16:32:55.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>互斥锁和自旋锁</title>
+    <link href="http://simonyang.cn/2017/10/18/sem-mutex-spin/"/>
+    <id>http://simonyang.cn/2017/10/18/sem-mutex-spin/</id>
+    <published>2017-10-17T17:20:37.000Z</published>
+    <updated>2017-10-18T18:53:42.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h2><h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p>自旋锁也是为实现保护共享资源的一种锁机制。和互斥锁相同，在任何时刻，最多只有一个线程获得锁。但是两者在调度机制上略有不同。<strong>自旋锁不会引起调用者线程休眠。</strong>如果自旋锁已经被其他线程所持有，当前调用者就一直循环查看该锁是否被保持者释放。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;互斥锁&quot;&gt;&lt;a href=&quot;#互斥锁&quot; class=&quot;headerlink&quot; title=&quot;互斥锁&quot;&gt;&lt;/a&gt;互斥锁&lt;/h2&gt;&lt;h2 id=&quot;自旋锁&quot;&gt;&lt;a href=&quot;#自旋锁&quot; class=&quot;headerlink&quot; title=&quot;自旋锁&quot;&gt;&lt;/a&gt;自旋锁&lt;/h
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Websocket原理与实践</title>
+    <link href="http://simonyang.cn/2017/09/13/websocket/"/>
+    <id>http://simonyang.cn/2017/09/13/websocket/</id>
+    <published>2017-09-13T14:01:13.000Z</published>
+    <updated>2017-12-18T15:54:53.971Z</updated>
+    
+    <content type="html"><![CDATA[<p>Websocket原理与实践<br><a id="more"></a></p>
 <h3 id="客户端向服务端发送握手信息"><a href="#客户端向服务端发送握手信息" class="headerlink" title="客户端向服务端发送握手信息"></a>客户端向服务端发送握手信息</h3><ol>
 <li>握手必须是一个有效的HTTP请求</li>
 <li>请求方法必须是<code>GET</code>，HTTP版本至少是<code>1.1</code></li>
@@ -41,84 +139,42 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/2017/09/13/websocket/logo.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;客户端向服务端发送握手信息&quot;&gt;&lt;a href=&quot;#客户端向服务端发送握手信息&quot; class=&quot;headerlink&quot; title=&quot;客户端向服务端发送
+      &lt;p&gt;Websocket原理与实践&lt;br&gt;
     
     </summary>
     
     
-  </entry>
-  
-  <entry>
-    <title>http_protocol</title>
-    <link href="http://yoursite.com/2017/08/20/http-protocol/"/>
-    <id>http://yoursite.com/2017/08/20/http-protocol/</id>
-    <published>2017-08-20T06:07:51.000Z</published>
-    <updated>2017-08-20T06:10:29.000Z</updated>
+      <category term="网络" scheme="http://simonyang.cn/tags/%E7%BD%91%E7%BB%9C/"/>
     
-    <content type="html"><![CDATA[<p><img src="http-protocol/hehe.png" alt="logo"><br><img src="http-protocol/logo.jpg" alt="logo"></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http-protocol/hehe.png&quot; alt=&quot;logo&quot;&gt;&lt;br&gt;&lt;img src=&quot;http-protocol/logo.jpg&quot; alt=&quot;logo&quot;&gt;&lt;/p&gt;
-
-    
-    </summary>
-    
+      <category term="websocket" scheme="http://simonyang.cn/tags/websocket/"/>
     
   </entry>
   
   <entry>
-    <title>webviewcookie</title>
-    <link href="http://yoursite.com/2017/08/20/webviewcookie/"/>
-    <id>http://yoursite.com/2017/08/20/webviewcookie/</id>
+    <title>Sqlite操作汇总</title>
+    <link href="http://simonyang.cn/2017/08/20/sqlite/"/>
+    <id>http://simonyang.cn/2017/08/20/sqlite/</id>
     <published>2017-08-20T06:06:22.000Z</published>
-    <updated>2017-08-20T06:07:06.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/2017/08/20/webviewcookie/logo.jpg" alt="asd"></p>
-]]></content>
+    <updated>2017-11-16T16:35:36.000Z</updated>
     
     <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;/2017/08/20/webviewcookie/logo.jpg&quot; alt=&quot;asd&quot;&gt;&lt;/p&gt;
-
     
     </summary>
     
     
-  </entry>
-  
-  <entry>
-    <title>ioshttp</title>
-    <link href="http://yoursite.com/2017/08/20/ioshttp/"/>
-    <id>http://yoursite.com/2017/08/20/ioshttp/</id>
-    <published>2017-08-20T05:31:27.000Z</published>
-    <updated>2017-08-20T06:05:29.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="ioshttp/logo.jpg" alt="asd"></p>
-<h3 id="URI和URL、URN"><a href="#URI和URL、URN" class="headerlink" title="URI和URL、URN"></a>URI和URL、URN</h3><p>URI格式<code>scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</code></p>
-<p>根据URI解析各个内容<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> str = <span class="string">"http://simon:123456@www.simonyang.cn:8080/tags?keyword=cocoa#fragment"</span></div><div class="line"><span class="keyword">var</span> url = <span class="type">URL</span>(string: str)!</div><div class="line">url.scheme <span class="comment">// "http"</span></div><div class="line">url.user <span class="comment">// "simon"</span></div><div class="line">url.password <span class="comment">// "123456"</span></div><div class="line">url.host <span class="comment">// www.simonyang.cn</span></div><div class="line">url.port <span class="comment">// 8080</span></div><div class="line">url.path <span class="comment">// "/tags"</span></div><div class="line">url.query <span class="comment">// "keyword=cocoa"</span></div><div class="line">url.fragment <span class="comment">// "fragment"</span></div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;ioshttp/logo.jpg&quot; alt=&quot;asd&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;URI和URL、URN&quot;&gt;&lt;a href=&quot;#URI和URL、URN&quot; class=&quot;headerlink&quot; title=&quot;URI和URL、URN&quot;&gt;&lt;/a&gt;URI和URL
-    
-    </summary>
-    
+      <category term="sqlite" scheme="http://simonyang.cn/tags/sqlite/"/>
     
   </entry>
   
   <entry>
     <title>OC中的异常</title>
-    <link href="http://yoursite.com/2017/08/18/NSException/"/>
-    <id>http://yoursite.com/2017/08/18/NSException/</id>
+    <link href="http://simonyang.cn/2017/08/18/NSException/"/>
+    <id>http://simonyang.cn/2017/08/18/NSException/</id>
     <published>2017-08-18T15:55:01.000Z</published>
-    <updated>2017-08-20T06:05:08.000Z</updated>
+    <updated>2017-12-18T15:55:27.510Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建异常</span></div><div class="line">[<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line">[[<span class="built_in">NSException</span> alloc]initWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line"></div><div class="line"><span class="comment">//实例方法抛出异常</span></div><div class="line">[exception raise];</div><div class="line"></div><div class="line"><span class="comment">//类方法抛出异常</span></div><div class="line">[<span class="built_in">NSException</span> raise:<span class="built_in">NSInvalidArgumentException</span> format:<span class="string">@"数组越界啦"</span>];</div><div class="line"></div><div class="line"><span class="comment">//@throw关键字</span></div><div class="line"><span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<p>NSException<br><a id="more"></a></p>
+<h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建异常</span></div><div class="line">[<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line">[[<span class="built_in">NSException</span> alloc]initWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line"></div><div class="line"><span class="comment">//实例方法抛出异常</span></div><div class="line">[exception raise];</div><div class="line"></div><div class="line"><span class="comment">//类方法抛出异常</span></div><div class="line">[<span class="built_in">NSException</span> raise:<span class="built_in">NSInvalidArgumentException</span> format:<span class="string">@"数组越界啦"</span>];</div><div class="line"></div><div class="line"><span class="comment">//@throw关键字</span></div><div class="line"><span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div></pre></td></tr></table></figure>
 <p>控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">*** Terminating app due to uncaught exception &apos;NSInvalidArgumentException&apos;, reason: &apos;数组越界啦&apos;</div><div class="line">*** First throw call stack:</div><div class="line">(</div><div class="line">	0   CoreFoundation                      0x0000000102d8979b __exceptionPreprocess + 171</div><div class="line">	1   libobjc.A.dylib                     0x00000001026eb121 objc_exception_throw + 48</div><div class="line">	2   CoreFoundation                      0x0000000102e02b25 +[NSException raise:format:] + 197</div><div class="line">	3   exc                                 0x0000000101de049f -[ViewController viewDidLoad] + 95</div><div class="line">	4   UIKit                               0x000000010339d4ec -[UIViewController loadViewIfRequired] + 1235</div><div class="line">	5   UIKit                               0x000000010339d939 -[UIViewController view] + 27</div><div class="line">	6   UIKit                               0x0000000103278903 -[UIWindow addRootViewControllerViewIfPossible] + 122</div><div class="line">	7   UIKit                               0x0000000103278ff5 -[UIWindow _setHidden:forced:] + 294</div><div class="line">	8   UIKit                               0x000000010328bd3b -[UIWindow makeKeyAndVisible] + 42</div><div class="line">	9   UIKit                               0x00000001032011a4 -[UIApplication _callInitializationDelegatesForMainScene:transitionContext:] + 4711</div><div class="line">	10  UIKit                               0x00000001032065cd -[UIApplication _runWithMainScene:transitionContext:completion:] + 1720</div><div class="line">	11  UIKit                               0x00000001035a3d3d __111-[__UICanvasLifecycleMonitor_Compatability _scheduleFirstCommitForScene:transition:firstActivation:completion:]_block_invoke + 111</div><div class="line">	12  UIKit                               0x000000010395b86d +[_UICanvas _enqueuePostSettingUpdateTransactionBlock:] + 153</div><div class="line">	13  UIKit                               0x00000001035a3c63 -[__UICanvasLifecycleMonitor_Compatability _scheduleFirstCommitForScene:transition:firstActivation:completion:] + 249</div><div class="line">	14  UIKit                               0x00000001035a3fff -[__UICanvasLifecycleMonitor_Compatability activateEventsOnly:withContext:completion:] + 530</div><div class="line">	15  UIKit                               0x0000000103ec010a __82-[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:completion:]_block_invoke + 259</div><div class="line">	16  UIKit                               0x0000000103ebffc6 -[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:completion:] + 444</div><div class="line">	17  UIKit                               0x0000000103bc752d __125-[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:settingsDiff:fromSettings:transitionContext:]_block_invoke + 221</div><div class="line">	18  UIKit                               0x0000000103db55fa _performActionsWithDelayForTransitionContext + 100</div><div class="line">	19  UIKit                               0x0000000103bc73f0 -[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 231</div><div class="line">	20  UIKit                               0x000000010395aeca -[_UICanvas scene:didUpdateWithDiff:transitionContext:completion:] + 392</div><div class="line">	21  UIKit                               0x0000000103204e80 -[UIApplication workspace:didCreateScene:withTransitionContext:completion:] + 664</div><div class="line">	22  UIKit                               0x00000001037a2094 -[UIApplicationSceneClientAgent scene:didInitializeWithEvent:completion:] + 369</div><div class="line">	23  FrontBoardServices                  0x00000001071e05c8 -[FBSSceneImpl _didCreateWithTransitionContext:completion:] + 338</div><div class="line">	24  FrontBoardServices                  0x00000001071e9025 __56-[FBSWorkspace client:handleCreateScene:withCompletion:]_block_invoke_2 + 235</div><div class="line">	25  libdispatch.dylib                   0x00000001065e5658 _dispatch_client_callout + 8</div><div class="line">	26  libdispatch.dylib                   0x00000001065eae6b _dispatch_block_invoke_direct + 589</div><div class="line">	27  FrontBoardServices                  0x00000001072147e3 __FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 24</div><div class="line">	28  FrontBoardServices                  0x0000000107214499 -[FBSSerialQueue _performNext] + 464</div><div class="line">	29  FrontBoardServices                  0x0000000107214a08 -[FBSSerialQueue _performNextFromRunLoopSource] + 45</div><div class="line">	30  CoreFoundation                      0x0000000102d2ce71 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 17</div><div class="line">	31  CoreFoundation                      0x0000000102d1156f __CFRunLoopDoSources0 + 271</div><div class="line">	32  CoreFoundation                      0x0000000102d10b1f __CFRunLoopRun + 1039</div><div class="line">	33  CoreFoundation                      0x0000000102d10499 CFRunLoopRunSpecific + 409</div><div class="line">	34  GraphicsServices                    0x0000000107b229d7 GSEventRunModal + 62</div><div class="line">	35  UIKit                               0x00000001032080b8 UIApplicationMain + 159</div><div class="line">	36  exc                                 0x0000000101de055f main + 111</div><div class="line">	37  libdyld.dylib                       0x0000000106666771 start + 1</div><div class="line">	38  ???                                 0x0000000000000001 0x0 + 1</div><div class="line">)</div><div class="line">libc++abi.dylib: terminating with uncaught exception of type NSException</div></pre></td></tr></table></figure></p>
 <p>抛出异常的信息不仅有<code>name</code>、<code>reason</code>还有异常抛出时的方法调用栈<code>callStackSymbols</code>。</p>
 <h3 id="常见异常"><a href="#常见异常" class="headerlink" title="常见异常"></a>常见异常</h3><h4 id="NSInvalidArgumentException"><a href="#NSInvalidArgumentException" class="headerlink" title="NSInvalidArgumentException"></a>NSInvalidArgumentException</h4><p>参数错误，常见的有数组或字典插入nil对象、调用不存在的方法都会抛出该NSExceptionName的异常。</p>
@@ -131,68 +187,21 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;基础使用&quot;&gt;&lt;a href=&quot;#基础使用&quot; class=&quot;headerlink&quot; title=&quot;基础使用&quot;&gt;&lt;/a&gt;基础使用&lt;/h3&gt;&lt;figure class=&quot;highlight objectivec&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter
+      &lt;p&gt;NSException&lt;br&gt;
     
     </summary>
     
     
-  </entry>
-  
-  <entry>
-    <title>mac OpenURL</title>
-    <link href="http://yoursite.com/2017/07/31/macOpenURL/"/>
-    <id>http://yoursite.com/2017/07/31/macOpenURL/</id>
-    <published>2017-07-31T07:52:41.000Z</published>
-    <updated>2017-08-20T06:08:25.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="在info-plist中添加URL-Schememyapp"><a href="#在info-plist中添加URL-Schememyapp" class="headerlink" title="在info.plist中添加URL Schememyapp"></a>在<code>info.plist</code>中添加URL Scheme<code>myapp</code></h3><h3 id="在applicationWillFinishLaunching中注册URL事件"><a href="#在applicationWillFinishLaunching中注册URL事件" class="headerlink" title="在applicationWillFinishLaunching中注册URL事件"></a>在<code>applicationWillFinishLaunching</code>中注册URL事件</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">applicationWillFinishLaunching</span><span class="params">(<span class="number">_</span> notification: Notification)</span></span> &#123;</div><div class="line">    <span class="type">NSAppleEventManager</span>.shared().setEventHandler(<span class="keyword">self</span>, andSelector: #selector(handleURL(event:with:)), forEventClass: <span class="type">AEEventClass</span>(kInternetEventClass), andEventID: <span class="type">AEEventID</span>(kAEGetURL))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleURL</span><span class="params">(event: NSAppleEventDescriptor, with replyEvent: NSAppleEventDescriptor)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> eventDesc = event.paramDescriptor(forKeyword: keyDirectObject)</div><div class="line">    <span class="keyword">let</span> url = eventDesc?.stringValue</div><div class="line">    <span class="keyword">let</span> alert = <span class="type">NSAlert</span>()</div><div class="line">    alert.messageText = <span class="string">"handleURL"</span></div><div class="line">    alert.informativeText = url ?? <span class="string">"error"</span></div><div class="line">    alert.addButton(withTitle: <span class="string">"done"</span>)</div><div class="line">    alert.runModal()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="调起MyApp的两种方式"><a href="#调起MyApp的两种方式" class="headerlink" title="调起MyApp的两种方式:"></a>调起MyApp的两种方式:</h3><p>1.在浏览器中跳转：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"myapp://myhost?name=simon&amp;id=123456"</span>&gt;</span>click me<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>2.在其他app中跳转：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"myapp://host?name=simon&amp;id=123456"</span>) &#123;</div><div class="line">    <span class="type">NSWorkspace</span>.shared.open(url)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;在info-plist中添加URL-Schememyapp&quot;&gt;&lt;a href=&quot;#在info-plist中添加URL-Schememyapp&quot; class=&quot;headerlink&quot; title=&quot;在info.plist中添加URL Schememyapp&quot;&gt;&lt;/a
-    
-    </summary>
-    
-      <category term="mac OS" scheme="http://yoursite.com/categories/mac-OS/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Median of Two Sorted Arrays</title>
-    <link href="http://yoursite.com/2017/06/21/MedianofTwoSortedArrays/"/>
-    <id>http://yoursite.com/2017/06/21/MedianofTwoSortedArrays/</id>
-    <published>2017-06-21T03:52:04.000Z</published>
-    <updated>2017-06-21T04:00:57.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/#/description" target="_blank" rel="external">https://leetcode.com/problems/median-of-two-sorted-arrays/#/description</a></p>
-</blockquote>
-<p>给定两个有序数组，长度不一定相同，一个是m、一个是n，要求给出他们合并在一起之后的数组的中位数。要求时间复杂度为O(log(m+n))。<br>数组的中位数：<br>如果有序数组有奇数个元素，那么中位数是最中间那个元素。<br>如果有序数组有偶数个元素，那么中位数是中间两个元素的平均数。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/median-of-two-sorted-arrays/#/description&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://lee
-    
-    </summary>
-    
-      <category term="Algorithms" scheme="http://yoursite.com/categories/Algorithms/"/>
-    
+      <category term="Foundation" scheme="http://simonyang.cn/tags/Foundation/"/>
     
   </entry>
   
   <entry>
     <title>使用FileHandle读写文件</title>
-    <link href="http://yoursite.com/2017/06/06/FileHandle/"/>
-    <id>http://yoursite.com/2017/06/06/FileHandle/</id>
+    <link href="http://simonyang.cn/2017/06/06/FileHandle/"/>
+    <id>http://simonyang.cn/2017/06/06/FileHandle/</id>
     <published>2017-06-06T07:19:47.000Z</published>
-    <updated>2017-07-31T07:55:07.000Z</updated>
+    <updated>2017-10-16T16:23:17.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="创建一个读取的filehandle"><a href="#创建一个读取的filehandle" class="headerlink" title="创建一个读取的filehandle"></a>创建一个读取的filehandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">10</span> &#123;</div><div class="line">        <span class="keyword">let</span> log = <span class="string">"id:<span class="subst">\(i)</span>"</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> data = log.data(using: .utf8) &#123;</div><div class="line">            fileHandle.write(data)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fileHandle.synchronizeFile()</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(fileHandle.availableData.<span class="built_in">count</span>)</div><div class="line"></div><div class="line">    fileHandle.seek(toFileOffset: <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="keyword">let</span> logs = <span class="type">String</span>(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!</div><div class="line">    <span class="built_in">print</span>(logs)</div><div class="line"></div><div class="line"></div><div class="line">    fileHandle.closeFile()</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="创建一个写入的fileHandle"><a href="#创建一个写入的fileHandle" class="headerlink" title="创建一个写入的fileHandle"></a>创建一个写入的fileHandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    fileHandle.synchronizeFile()</div><div class="line">    fileHandle.closeFile()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -204,69 +213,58 @@
     
     </summary>
     
-      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
+      <category term="Cocoa" scheme="http://simonyang.cn/categories/Cocoa/"/>
     
     
-      <category term="Foundation" scheme="http://yoursite.com/tags/Foundation/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WKWebView和Native通信</title>
-    <link href="http://yoursite.com/2017/05/02/WebKit/"/>
-    <id>http://yoursite.com/2017/05/02/WebKit/</id>
-    <published>2017-05-02T15:00:09.000Z</published>
-    <updated>2017-06-23T11:10:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h2><h2 id="WKWebViewConfiguration"><a href="#WKWebViewConfiguration" class="headerlink" title="WKWebViewConfiguration"></a>WKWebViewConfiguration</h2><h2 id="WKScriptMessage"><a href="#WKScriptMessage" class="headerlink" title="WKScriptMessage"></a>WKScriptMessage</h2><h2 id="WKScriptMessageHandler"><a href="#WKScriptMessageHandler" class="headerlink" title="WKScriptMessageHandler"></a>WKScriptMessageHandler</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MessageHandler</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> name = <span class="string">"MessageHandler"</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MessageHandler</span>: <span class="title">WKScriptMessageHandler</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">userContentController</span><span class="params">(<span class="number">_</span> userContentController: WKUserContentController, didReceive message: WKScriptMessage)</span></span> &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;WKWebView&quot;&gt;&lt;a href=&quot;#WKWebView&quot; class=&quot;headerlink&quot; title=&quot;WKWebView&quot;&gt;&lt;/a&gt;WKWebView&lt;/h2&gt;&lt;h2 id=&quot;WKWebViewConfiguration&quot;&gt;&lt;a href=&quot;#WKW
-    
-    </summary>
-    
-      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
-    
-    
-      <category term="WebKit" scheme="http://yoursite.com/tags/WebKit/"/>
+      <category term="Foundation" scheme="http://simonyang.cn/tags/Foundation/"/>
     
   </entry>
   
   <entry>
-    <title>Swift中使用GCD</title>
-    <link href="http://yoursite.com/2017/04/24/Dispatch/"/>
-    <id>http://yoursite.com/2017/04/24/Dispatch/</id>
+    <title>Pthread</title>
+    <link href="http://simonyang.cn/2017/04/24/pthread/"/>
+    <id>http://simonyang.cn/2017/04/24/pthread/</id>
     <published>2017-04-24T05:22:34.000Z</published>
-    <updated>2017-09-15T17:42:44.000Z</updated>
+    <updated>2017-12-08T16:28:48.000Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="/2017/04/24/Dispatch/logo.jpg" alt=""></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">name</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">dododo</span><span class="params">(a: Int)</span></span> &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span></span></div></pre></td></tr></table></figure>
-]]></content>
+    <content type="html"><![CDATA[<p>当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：<br><a id="more"></a></p>
+<h3 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h3><p>启动程序时，进程中只有一条主线程，创建一条线程使用<code>pthread_create()</code>函数。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int pthread_create(pthread_t *,const pthread_attr_t *,void *(*)(void *), void *);</div></pre></td></tr></table></figure></p>
+<h3 id="线程终止"><a href="#线程终止" class="headerlink" title="线程终止"></a>线程终止</h3><ul>
+<li>线程start函数执行return并返回指定值</li>
+<li>线程调用pthread_exit()</li>
+<li>调用pthread_cancel()取消线程</li>
+<li>任意线程调用exit()，或主线程在main函数中return，都会导致进程中所有线程立即终止</li>
+</ul>
+<h2 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h2><h3 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h3><p>初始化互斥锁： </p>
+<p>加锁：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_lock</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>如果加锁时互斥锁处于未锁定状态，该函数会加锁并立即返回。如果其他线程已经对该互斥锁加锁，那么该函数会一只阻塞，直到互斥锁解锁，再锁定并返回。<br>解锁：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_unlock</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *)</span></span>;</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;img src=&quot;/2017/04/24/Dispatch/logo.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;
+      &lt;p&gt;当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：&lt;br&gt;
     
     </summary>
     
-      <category term="Cocoa" scheme="http://yoursite.com/categories/Cocoa/"/>
+      <category term="Cocoa" scheme="http://simonyang.cn/categories/Cocoa/"/>
     
     
-      <category term="多线程" scheme="http://yoursite.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+      <category term="多线程" scheme="http://simonyang.cn/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+      <category term="pthread" scheme="http://simonyang.cn/tags/pthread/"/>
     
   </entry>
   
   <entry>
     <title>Objective-C消息转发</title>
-    <link href="http://yoursite.com/2017/04/18/MethodForward/"/>
-    <id>http://yoursite.com/2017/04/18/MethodForward/</id>
+    <link href="http://simonyang.cn/2017/04/18/MethodForward/"/>
+    <id>http://simonyang.cn/2017/04/18/MethodForward/</id>
     <published>2017-04-17T16:54:35.000Z</published>
-    <updated>2017-04-18T03:58:21.000Z</updated>
+    <updated>2017-12-08T16:27:20.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="performSelector"><a href="#performSelector" class="headerlink" title="performSelector"></a>performSelector</h2><p>当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-[TestObjHelper someMethod]: unrecognized selector sent to instance 0x608000015230</div><div class="line">*** Terminating app due to uncaught exception &apos;NSInvalidArgumentException&apos;, reason: &apos;-[TestObjHelper someMethod]: unrecognized selector sent to instance 0x608000015230&apos;</div></pre></td></tr></table></figure></p>
+    <content type="html"><![CDATA[<p>当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：</p>
+<a id="more"></a>
+<h2 id="performSelector"><a href="#performSelector" class="headerlink" title="performSelector"></a>performSelector</h2><p>当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-[TestObjHelper someMethod]: unrecognized selector sent to instance 0x608000015230</div><div class="line">*** Terminating app due to uncaught exception &apos;NSInvalidArgumentException&apos;, reason: &apos;-[TestObjHelper someMethod]: unrecognized selector sent to instance 0x608000015230&apos;</div></pre></td></tr></table></figure></p>
 <h3 id="动态方法解析"><a href="#动态方法解析" class="headerlink" title="动态方法解析"></a>动态方法解析</h3><p>对象在收到不存的方法，如果是类方法，会调用<code>+resolveClassMethod:</code>,如果是实例方法，会调用<code>+resolveInstanceMethod:</code>。在这个方法中我们可以通过<code>class_addMethod</code>为该类动态添加该方法，并返回<code>YES</code>，此时该对象会响应新增的<code>selector</code>。</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">TestObj</span></span></div><div class="line"></div><div class="line"><span class="keyword">void</span> someMethodImp(<span class="keyword">id</span> <span class="keyword">self</span>,SEL _cmd) &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ %p"</span>,<span class="keyword">self</span>,_cmd);</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="built_in">BOOL</span>)resolveInstanceMethod:(SEL)sel &#123;</div><div class="line">    <span class="keyword">if</span> ([<span class="built_in">NSStringFromSelector</span>(sel) isEqualToString:<span class="string">@"someMethod"</span>]) &#123;</div><div class="line">        class_addMethod(<span class="keyword">self</span>, sel, (IMP)someMethodImp, <span class="string">"@:"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">super</span> resolveInstanceMethod:sel];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line">[[TestObj new] performSelector:<span class="keyword">@selector</span>(someMethod)];</div><div class="line"></div><div class="line"><span class="comment">//&lt;TestObj: 0x608000008a50&gt; 0x10ade7b24</span></div></pre></td></tr></table></figure>
 <h3 id="备用接受者"><a href="#备用接受者" class="headerlink" title="备用接受者"></a>备用接受者</h3><p>如果上一步没有实现，则会继续调用如下方法：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">id</span>)forwardingTargetForSelector:(SEL)aSelector</div></pre></td></tr></table></figure></p>
@@ -278,19 +276,19 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;performSelector&quot;&gt;&lt;a href=&quot;#performSelector&quot; class=&quot;headerlink&quot; title=&quot;performSelector&quot;&gt;&lt;/a&gt;performSelector&lt;/h2&gt;&lt;p&gt;当一个对象接收到不存在的方法时，默认
+      &lt;p&gt;当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：&lt;/p&gt;
     
     </summary>
     
-      <category term="Objective-C" scheme="http://yoursite.com/categories/Objective-C/"/>
+      <category term="Objective-C" scheme="http://simonyang.cn/categories/Objective-C/"/>
     
     
   </entry>
   
   <entry>
     <title>URLProtocol</title>
-    <link href="http://yoursite.com/2017/04/15/URLProtocol/"/>
-    <id>http://yoursite.com/2017/04/15/URLProtocol/</id>
+    <link href="http://simonyang.cn/2017/04/15/URLProtocol/"/>
+    <id>http://simonyang.cn/2017/04/15/URLProtocol/</id>
     <published>2017-04-15T11:51:17.000Z</published>
     <updated>2017-04-15T11:51:17.000Z</updated>
     
@@ -303,8 +301,8 @@
   
   <entry>
     <title>使用正则表达式</title>
-    <link href="http://yoursite.com/2017/04/10/RegEx/"/>
-    <id>http://yoursite.com/2017/04/10/RegEx/</id>
+    <link href="http://simonyang.cn/2017/04/10/RegEx/"/>
+    <id>http://simonyang.cn/2017/04/10/RegEx/</id>
     <published>2017-04-10T14:16:47.000Z</published>
     <updated>2017-08-18T18:14:57.000Z</updated>
     
@@ -312,7 +310,7 @@
     
     </summary>
     
-      <category term="Swift" scheme="http://yoursite.com/categories/Swift/"/>
+      <category term="Swift" scheme="http://simonyang.cn/categories/Swift/"/>
     
     
   </entry>
