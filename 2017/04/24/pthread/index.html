@@ -17,7 +17,7 @@
 
 
 
-  <meta name="description" content="Pthread"/>
+  <meta name="description" content="pthread详解"/>
 
 
 
@@ -79,7 +79,7 @@
 
 
 
-    <title> Pthread - Simon </title>
+    <title> pthread详解 - Simon </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -127,10 +127,7 @@
 </nav>
 
     <div class="container" id="mobile-panel">
-      <header id="header" class="header"><div class="logo-wrapper">
-  <a href="/." class="logo">Simon</a>
-</div>
-
+      <header id="header" class="header">
 <nav class="site-navbar">
   
     <ul id="menu" class="menu">
@@ -177,7 +174,7 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          Pthread
+          pthread详解
         
       </h1>
 
@@ -202,6 +199,9 @@
     <div class="post-content">
       
         <p>当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：<br><a id="more"></a></p>
+<blockquote>
+<p>apue</p>
+</blockquote>
 <h3 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h3><p>启动程序时，进程中只有一条主线程，创建一条线程使用<code>pthread_create()</code>函数。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int pthread_create(pthread_t *,const pthread_attr_t *,void *(*)(void *), void *);</div></pre></td></tr></table></figure></p>
 <h3 id="线程终止"><a href="#线程终止" class="headerlink" title="线程终止"></a>线程终止</h3><ul>
 <li>线程start函数执行return并返回指定值</li>
@@ -249,7 +249,7 @@
     
     
       <a class="next" href="/2017/06/06/FileHandle/">
-        <span class="next-text nav-default">使用FileHandle读写文件</span>
+        <span class="next-text nav-default">文件句柄</span>
         <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>

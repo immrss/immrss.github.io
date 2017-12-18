@@ -17,12 +17,12 @@
 
 
 
-  <meta name="description" content="使用FileHandle读写文件"/>
+  <meta name="description" content="文件句柄"/>
 
 
 
 
-  <meta name="keywords" content="Foundation, Simon" />
+  <meta name="keywords" content="文件操作, Simon" />
 
 
 
@@ -79,7 +79,7 @@
 
 
 
-    <title> 使用FileHandle读写文件 - Simon </title>
+    <title> 文件句柄 - Simon </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -127,10 +127,7 @@
 </nav>
 
     <div class="container" id="mobile-panel">
-      <header id="header" class="header"><div class="logo-wrapper">
-  <a href="/." class="logo">Simon</a>
-</div>
-
+      <header id="header" class="header">
 <nav class="site-navbar">
   
     <ul id="menu" class="menu">
@@ -177,7 +174,7 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          使用FileHandle读写文件
+          文件句柄
         
       </h1>
 
@@ -201,7 +198,8 @@
 
     <div class="post-content">
       
-        <h3 id="创建一个读取的filehandle"><a href="#创建一个读取的filehandle" class="headerlink" title="创建一个读取的filehandle"></a>创建一个读取的filehandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">10</span> &#123;</div><div class="line">        <span class="keyword">let</span> log = <span class="string">"id:<span class="subst">\(i)</span>"</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> data = log.data(using: .utf8) &#123;</div><div class="line">            fileHandle.write(data)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fileHandle.synchronizeFile()</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(fileHandle.availableData.<span class="built_in">count</span>)</div><div class="line"></div><div class="line">    fileHandle.seek(toFileOffset: <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="keyword">let</span> logs = <span class="type">String</span>(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!</div><div class="line">    <span class="built_in">print</span>(logs)</div><div class="line"></div><div class="line"></div><div class="line">    fileHandle.closeFile()</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p>创建一个读取的filehandle<br><a id="more"></a></p>
+<h3 id="创建一个读取的filehandle"><a href="#创建一个读取的filehandle" class="headerlink" title="创建一个读取的filehandle"></a>创建一个读取的filehandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">10</span> &#123;</div><div class="line">        <span class="keyword">let</span> log = <span class="string">"id:<span class="subst">\(i)</span>"</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> data = log.data(using: .utf8) &#123;</div><div class="line">            fileHandle.write(data)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fileHandle.synchronizeFile()</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(fileHandle.availableData.<span class="built_in">count</span>)</div><div class="line"></div><div class="line">    fileHandle.seek(toFileOffset: <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="keyword">let</span> logs = <span class="type">String</span>(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!</div><div class="line">    <span class="built_in">print</span>(logs)</div><div class="line"></div><div class="line"></div><div class="line">    fileHandle.closeFile()</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="创建一个写入的fileHandle"><a href="#创建一个写入的fileHandle" class="headerlink" title="创建一个写入的fileHandle"></a>创建一个写入的fileHandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    fileHandle.synchronizeFile()</div><div class="line">    fileHandle.closeFile()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="异步读写"><a href="#异步读写" class="headerlink" title="异步读写"></a>异步读写</h3>
       
@@ -222,7 +220,7 @@
         
           <div class="post-tags">
             
-              <a href="/tags/Foundation/">Foundation</a>
+              <a href="/tags/文件操作/">文件操作</a>
             
           </div>
         
@@ -232,13 +230,13 @@
     
       <a class="prev" href="/2017/04/24/pthread/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">Pthread</span>
+        <span class="prev-text nav-default">pthread详解</span>
         <span class="prev-text nav-mobile">Prev</span>
       </a>
     
     
       <a class="next" href="/2017/08/18/NSException/">
-        <span class="next-text nav-default">OC中的异常</span>
+        <span class="next-text nav-default">NSException探究</span>
         <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>

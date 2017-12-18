@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://simonyang.cn/"/>
-  <updated>2017-12-18T15:08:35.000Z</updated>
+  <updated>2017-12-18T16:28:28.000Z</updated>
   <id>http://simonyang.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://simonyang.cn/2017/12/18/fmdb-safe/"/>
     <id>http://simonyang.cn/2017/12/18/fmdb-safe/</id>
     <published>2017-12-18T14:35:10.000Z</published>
-    <updated>2017-12-18T15:08:35.000Z</updated>
+    <updated>2017-12-18T16:28:28.000Z</updated>
     
     <content type="html"><![CDATA[<p>在数据库使用过程中，如果涉及到多线程访问，会有线程安全。<code>FMDatabase</code>实例是非线程安全的，你只能同一个线程访问它。fmdb提供了<code>FMDatabaseQueue</code>来实现多线程下数据库操作。<br><a id="more"></a></p>
 <h4 id="多线程操作实例"><a href="#多线程操作实例" class="headerlink" title="多线程操作实例"></a>多线程操作实例</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *path = <span class="built_in">NSSearchPathForDirectoriesInDomains</span>(<span class="built_in">NSDocumentDirectory</span>, <span class="built_in">NSUserDomainMask</span>, <span class="literal">YES</span>)[<span class="number">0</span>];</div><div class="line">path = [path stringByAppendingPathComponent:<span class="string">@"test.db"</span>];</div><div class="line">_databaseQueue = [FMDatabaseQueue databaseQueueWithPath:path];</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        <span class="built_in">BOOL</span> bo = [db executeUpdate:<span class="string">@"create table if not exists t_person (id integer primary key autoincrement,name text not null,age integer);"</span>];</div><div class="line">        <span class="keyword">if</span> (bo) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"建表成功 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"建表失败 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        <span class="built_in">BOOL</span> bo = [db executeUpdate:<span class="string">@"insert into t_person(name ,age) values(?,?);"</span>,<span class="string">@"simon"</span>,<span class="string">@"26"</span>];</div><div class="line">        <span class="keyword">if</span> (bo) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"插入成功 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"插入失败 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div><div class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">    [_databaseQueue inTransaction:^(FMDatabase * _Nonnull db, <span class="built_in">BOOL</span> * _Nonnull rollback) &#123;</div><div class="line">        FMResultSet * set = [db executeQuery:<span class="string">@"select * from t_person;"</span>];</div><div class="line">        <span class="keyword">if</span> ([set next]) &#123;</div><div class="line">            <span class="built_in">NSString</span> *name = [set stringForColumn:<span class="string">@"name"</span>];</div><div class="line">            <span class="built_in">NSInteger</span> age = [set intForColumn:<span class="string">@"age"</span>];</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"name = %@,age = %ld  thread: %@"</span>,name,age,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"查询出错 thread: %@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
@@ -42,7 +42,7 @@
     </summary>
     
     
-      <category term="fmdb" scheme="http://simonyang.cn/tags/fmdb/"/>
+      <category term="FMDB" scheme="http://simonyang.cn/tags/FMDB/"/>
     
       <category term="线程安全" scheme="http://simonyang.cn/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/"/>
     
@@ -167,11 +167,11 @@
   </entry>
   
   <entry>
-    <title>OC中的异常</title>
+    <title>NSException探究</title>
     <link href="http://simonyang.cn/2017/08/18/NSException/"/>
     <id>http://simonyang.cn/2017/08/18/NSException/</id>
     <published>2017-08-18T15:55:01.000Z</published>
-    <updated>2017-12-18T15:55:27.510Z</updated>
+    <updated>2017-12-18T16:27:26.000Z</updated>
     
     <content type="html"><![CDATA[<p>NSException<br><a id="more"></a></p>
 <h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建异常</span></div><div class="line">[<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line">[[<span class="built_in">NSException</span> alloc]initWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line"></div><div class="line"><span class="comment">//实例方法抛出异常</span></div><div class="line">[exception raise];</div><div class="line"></div><div class="line"><span class="comment">//类方法抛出异常</span></div><div class="line">[<span class="built_in">NSException</span> raise:<span class="built_in">NSInvalidArgumentException</span> format:<span class="string">@"数组越界啦"</span>];</div><div class="line"></div><div class="line"><span class="comment">//@throw关键字</span></div><div class="line"><span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div></pre></td></tr></table></figure>
@@ -192,42 +192,46 @@
     </summary>
     
     
-      <category term="Foundation" scheme="http://simonyang.cn/tags/Foundation/"/>
+      <category term="异常" scheme="http://simonyang.cn/tags/%E5%BC%82%E5%B8%B8/"/>
     
   </entry>
   
   <entry>
-    <title>使用FileHandle读写文件</title>
+    <title>文件句柄</title>
     <link href="http://simonyang.cn/2017/06/06/FileHandle/"/>
     <id>http://simonyang.cn/2017/06/06/FileHandle/</id>
     <published>2017-06-06T07:19:47.000Z</published>
-    <updated>2017-10-16T16:23:17.000Z</updated>
+    <updated>2017-12-18T16:25:04.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="创建一个读取的filehandle"><a href="#创建一个读取的filehandle" class="headerlink" title="创建一个读取的filehandle"></a>创建一个读取的filehandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">10</span> &#123;</div><div class="line">        <span class="keyword">let</span> log = <span class="string">"id:<span class="subst">\(i)</span>"</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> data = log.data(using: .utf8) &#123;</div><div class="line">            fileHandle.write(data)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fileHandle.synchronizeFile()</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(fileHandle.availableData.<span class="built_in">count</span>)</div><div class="line"></div><div class="line">    fileHandle.seek(toFileOffset: <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="keyword">let</span> logs = <span class="type">String</span>(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!</div><div class="line">    <span class="built_in">print</span>(logs)</div><div class="line"></div><div class="line"></div><div class="line">    fileHandle.closeFile()</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<p>创建一个读取的filehandle<br><a id="more"></a></p>
+<h3 id="创建一个读取的filehandle"><a href="#创建一个读取的filehandle" class="headerlink" title="创建一个读取的filehandle"></a>创建一个读取的filehandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">10</span> &#123;</div><div class="line">        <span class="keyword">let</span> log = <span class="string">"id:<span class="subst">\(i)</span>"</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> data = log.data(using: .utf8) &#123;</div><div class="line">            fileHandle.write(data)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fileHandle.synchronizeFile()</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(fileHandle.availableData.<span class="built_in">count</span>)</div><div class="line"></div><div class="line">    fileHandle.seek(toFileOffset: <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="keyword">let</span> logs = <span class="type">String</span>(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!</div><div class="line">    <span class="built_in">print</span>(logs)</div><div class="line"></div><div class="line"></div><div class="line">    fileHandle.closeFile()</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="创建一个写入的fileHandle"><a href="#创建一个写入的fileHandle" class="headerlink" title="创建一个写入的fileHandle"></a>创建一个写入的fileHandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    fileHandle.synchronizeFile()</div><div class="line">    fileHandle.closeFile()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="异步读写"><a href="#异步读写" class="headerlink" title="异步读写"></a>异步读写</h3>]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;创建一个读取的filehandle&quot;&gt;&lt;a href=&quot;#创建一个读取的filehandle&quot; class=&quot;headerlink&quot; title=&quot;创建一个读取的filehandle&quot;&gt;&lt;/a&gt;创建一个读取的filehandle&lt;/h3&gt;&lt;figure class
+      &lt;p&gt;创建一个读取的filehandle&lt;br&gt;
     
     </summary>
     
       <category term="Cocoa" scheme="http://simonyang.cn/categories/Cocoa/"/>
     
     
-      <category term="Foundation" scheme="http://simonyang.cn/tags/Foundation/"/>
+      <category term="文件操作" scheme="http://simonyang.cn/tags/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
     
   </entry>
   
   <entry>
-    <title>Pthread</title>
+    <title>pthread详解</title>
     <link href="http://simonyang.cn/2017/04/24/pthread/"/>
     <id>http://simonyang.cn/2017/04/24/pthread/</id>
     <published>2017-04-24T05:22:34.000Z</published>
-    <updated>2017-12-08T16:28:48.000Z</updated>
+    <updated>2017-12-18T16:39:24.000Z</updated>
     
     <content type="html"><![CDATA[<p>当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：<br><a id="more"></a></p>
+<blockquote>
+<p>apue</p>
+</blockquote>
 <h3 id="线程创建"><a href="#线程创建" class="headerlink" title="线程创建"></a>线程创建</h3><p>启动程序时，进程中只有一条主线程，创建一条线程使用<code>pthread_create()</code>函数。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int pthread_create(pthread_t *,const pthread_attr_t *,void *(*)(void *), void *);</div></pre></td></tr></table></figure></p>
 <h3 id="线程终止"><a href="#线程终止" class="headerlink" title="线程终止"></a>线程终止</h3><ul>
 <li>线程start函数执行return并返回指定值</li>
