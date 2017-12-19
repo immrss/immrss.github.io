@@ -622,7 +622,6 @@ h6 {
     border-bottom: 0; }
   .post .post-content .headerlink::before {
     content: "";
-    margin-right: 5px;
     font-size: 1.1em;
     color: #42b983; }
   .post .post-content a {
