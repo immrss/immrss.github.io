@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://simonyang.cn/"/>
-  <updated>2017-12-19T16:15:24.000Z</updated>
+  <updated>2018-01-16T17:39:11.000Z</updated>
   <id>http://simonyang.cn/</id>
   
   <author>
@@ -14,6 +14,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>RawRepresentable</title>
+    <link href="http://simonyang.cn/2018/01/07/RawRepresentable/"/>
+    <id>http://simonyang.cn/2018/01/07/RawRepresentable/</id>
+    <published>2018-01-07T14:53:39.000Z</published>
+    <updated>2018-01-16T17:39:11.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">protocol</span> <span class="title">RawRepresentable</span> </span>&#123;</div><div class="line">  </div><div class="line">    associatedtype <span class="type">RawValue</span></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">init</span>?(rawValue: <span class="type">Self</span>.<span class="type">RawValue</span>)</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">var</span> rawValue: <span class="type">Self</span>.<span class="type">RawValue</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
+    
+    </summary>
+    
+      <category term="swift" scheme="http://simonyang.cn/categories/swift/"/>
+    
+    
+      <category term="swift" scheme="http://simonyang.cn/tags/swift/"/>
+    
+  </entry>
   
   <entry>
     <title>FMDatabaseQueue</title>
@@ -51,44 +73,52 @@
   </entry>
   
   <entry>
-    <title>fmdb</title>
-    <link href="http://simonyang.cn/2017/11/17/fmdborm/"/>
-    <id>http://simonyang.cn/2017/11/17/fmdborm/</id>
+    <title>Promise</title>
+    <link href="http://simonyang.cn/2017/11/17/promise/"/>
+    <id>http://simonyang.cn/2017/11/17/promise/</id>
     <published>2017-11-16T16:30:54.000Z</published>
-    <updated>2017-11-16T16:35:41.292Z</updated>
+    <updated>2018-01-16T17:54:24.000Z</updated>
     
     <summary type="html">
     
     </summary>
     
     
-      <category term="sqlite" scheme="http://simonyang.cn/tags/sqlite/"/>
+      <category term="JS" scheme="http://simonyang.cn/tags/JS/"/>
+    
+      <category term="Promise" scheme="http://simonyang.cn/tags/Promise/"/>
     
   </entry>
   
   <entry>
-    <title>数据库版本升级</title>
+    <title>Sqlite模型版本自动升级方案</title>
     <link href="http://simonyang.cn/2017/11/17/sqlite_model_update/"/>
     <id>http://simonyang.cn/2017/11/17/sqlite_model_update/</id>
     <published>2017-11-16T16:30:44.000Z</published>
-    <updated>2017-12-18T17:33:12.000Z</updated>
+    <updated>2017-12-19T17:03:27.000Z</updated>
     
-    <content type="html"><![CDATA[<p>在我们开发过程中，model层经常会随着版本升级发生变化。简单额的比如字段的增删改，还存在像。如果我们不同时升级相应表的结构，那么在操作数据库的时候就会出现异常，发生crash。<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>在我们开发过程中，Model层经常会随着版本升级发生变化。简单额的比如字段的增删改，还存在像。我们需要同时升级相应表的结构，否则在操作数据库的时候就会出现异常，发生crash。<br><a id="more"></a></p>
+<h2 id="Model更新情形："><a href="#Model更新情形：" class="headerlink" title="Model更新情形："></a>Model更新情形：</h2><ul>
+<li>新增字段</li>
+</ul>
+<p>首先获取当前表中所有的字段信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p>在表中插入新的Column</p>
+<pre><code>
+</code></pre><ul>
+<li><p>删除字段<br>在sqlite中，并不支持直接删除表中某一列。如果要达到这样的效果，需要将表中其他列的数据拷贝到一张新表上，然后删掉当前旧表，并将新表重命名。这个过程是非常繁琐的，而且如果数据量大的话会很耗时。所有为了简单起见，对于model删除字段这种情况，表不做处理。</p>
+</li>
+<li><p>修改字段</p>
+</li>
+</ul>
 <ul>
-<li><p>model新增字段</p>
-</li>
-<li><p>model删除字段</p>
-</li>
-<li><p>model修改字段</p>
-</li>
-<li><p>model更新某一字段的值</p>
-</li>
+<li>model更新某一字段的值</li>
 </ul>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;在我们开发过程中，model层经常会随着版本升级发生变化。简单额的比如字段的增删改，还存在像。如果我们不同时升级相应表的结构，那么在操作数据库的时候就会出现异常，发生crash。&lt;br&gt;
+      &lt;p&gt;在我们开发过程中，Model层经常会随着版本升级发生变化。简单额的比如字段的增删改，还存在像。我们需要同时升级相应表的结构，否则在操作数据库的时候就会出现异常，发生crash。&lt;br&gt;
     
     </summary>
     
@@ -98,16 +128,23 @@
   </entry>
   
   <entry>
-    <title>使用SQLCipher加密sqlite数据库</title>
-    <link href="http://simonyang.cn/2017/11/17/SQLCipher/"/>
-    <id>http://simonyang.cn/2017/11/17/SQLCipher/</id>
+    <title>Call和Apply</title>
+    <link href="http://simonyang.cn/2017/11/17/call%E5%92%8Capply/"/>
+    <id>http://simonyang.cn/2017/11/17/call和apply/</id>
     <published>2017-11-16T16:29:57.000Z</published>
-    <updated>2017-11-16T16:32:55.000Z</updated>
+    <updated>2018-01-16T17:54:39.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
     
     <summary type="html">
     
+      &lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;
+    
     </summary>
     
+    
+      <category term="JS" scheme="http://simonyang.cn/tags/JS/"/>
     
   </entry>
   
@@ -184,11 +221,11 @@
   </entry>
   
   <entry>
-    <title>NSException探究</title>
+    <title>NSException</title>
     <link href="http://simonyang.cn/2017/08/18/NSException/"/>
     <id>http://simonyang.cn/2017/08/18/NSException/</id>
     <published>2017-08-18T15:55:01.000Z</published>
-    <updated>2017-12-18T16:27:26.000Z</updated>
+    <updated>2018-01-16T17:54:56.000Z</updated>
     
     <content type="html"><![CDATA[<p>NSException<br><a id="more"></a></p>
 <h3 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建异常</span></div><div class="line">[<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line">[[<span class="built_in">NSException</span> alloc]initWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div><div class="line"></div><div class="line"><span class="comment">//实例方法抛出异常</span></div><div class="line">[exception raise];</div><div class="line"></div><div class="line"><span class="comment">//类方法抛出异常</span></div><div class="line">[<span class="built_in">NSException</span> raise:<span class="built_in">NSInvalidArgumentException</span> format:<span class="string">@"数组越界啦"</span>];</div><div class="line"></div><div class="line"><span class="comment">//@throw关键字</span></div><div class="line"><span class="keyword">@throw</span> [<span class="built_in">NSException</span> exceptionWithName:<span class="built_in">NSInvalidArgumentException</span> reason:<span class="string">@"数组越界啦"</span> userInfo:@&#123;&#125;];</div></pre></td></tr></table></figure>
@@ -214,36 +251,29 @@
   </entry>
   
   <entry>
-    <title>文件句柄</title>
-    <link href="http://simonyang.cn/2017/06/06/FileHandle/"/>
-    <id>http://simonyang.cn/2017/06/06/FileHandle/</id>
+    <title>WKWebView资源离线缓存方案</title>
+    <link href="http://simonyang.cn/2017/06/06/wkwebviewcache/"/>
+    <id>http://simonyang.cn/2017/06/06/wkwebviewcache/</id>
     <published>2017-06-06T07:19:47.000Z</published>
-    <updated>2017-12-18T16:25:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>创建一个读取的filehandle<br><a id="more"></a></p>
-<h3 id="创建一个读取的filehandle"><a href="#创建一个读取的filehandle" class="headerlink" title="创建一个读取的filehandle"></a>创建一个读取的filehandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">10</span> &#123;</div><div class="line">        <span class="keyword">let</span> log = <span class="string">"id:<span class="subst">\(i)</span>"</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> data = log.data(using: .utf8) &#123;</div><div class="line">            fileHandle.write(data)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fileHandle.synchronizeFile()</div><div class="line"></div><div class="line">    <span class="built_in">print</span>(fileHandle.availableData.<span class="built_in">count</span>)</div><div class="line"></div><div class="line">    fileHandle.seek(toFileOffset: <span class="number">2</span>)</div><div class="line"></div><div class="line">    <span class="keyword">let</span> logs = <span class="type">String</span>(data: fileHandle.readDataToEndOfFile(), encoding: .utf8)!</div><div class="line">    <span class="built_in">print</span>(logs)</div><div class="line"></div><div class="line"></div><div class="line">    fileHandle.closeFile()</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="创建一个写入的fileHandle"><a href="#创建一个写入的fileHandle" class="headerlink" title="创建一个写入的fileHandle"></a>创建一个写入的fileHandle</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> path = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)[<span class="number">0</span>]</div><div class="line">path.append(<span class="string">"/log.txt"</span>)</div><div class="line"><span class="keyword">if</span> !<span class="type">FileManager</span>.<span class="keyword">default</span>.fileExists(atPath: path) &#123;</div><div class="line">    <span class="type">FileManager</span>.<span class="keyword">default</span>.createFile(atPath: path, contents: <span class="literal">nil</span>, attributes: <span class="literal">nil</span>)</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> fileHandle = <span class="type">FileHandle</span>(forUpdatingAtPath: path) &#123;</div><div class="line">    fileHandle.synchronizeFile()</div><div class="line">    fileHandle.closeFile()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="异步读写"><a href="#异步读写" class="headerlink" title="异步读写"></a>异步读写</h3>]]></content>
+    <updated>2018-01-16T17:21:19.000Z</updated>
     
     <summary type="html">
-    
-      &lt;p&gt;创建一个读取的filehandle&lt;br&gt;
     
     </summary>
     
       <category term="Cocoa" scheme="http://simonyang.cn/categories/Cocoa/"/>
     
     
-      <category term="文件操作" scheme="http://simonyang.cn/tags/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
+      <category term="webkit" scheme="http://simonyang.cn/tags/webkit/"/>
     
   </entry>
   
   <entry>
-    <title>pthread详解</title>
+    <title>Pthread</title>
     <link href="http://simonyang.cn/2017/04/24/pthread/"/>
     <id>http://simonyang.cn/2017/04/24/pthread/</id>
     <published>2017-04-24T05:22:34.000Z</published>
-    <updated>2017-12-18T16:39:24.000Z</updated>
+    <updated>2018-01-16T17:19:24.000Z</updated>
     
     <content type="html"><![CDATA[<p>当一个对象接收到不存在的方法时，默认情况下，程序会抛出异常：<br><a id="more"></a></p>
 <blockquote>
@@ -307,16 +337,64 @@
   </entry>
   
   <entry>
-    <title>URLProtocol</title>
+    <title>URLProtocol应用</title>
     <link href="http://simonyang.cn/2017/04/15/URLProtocol/"/>
     <id>http://simonyang.cn/2017/04/15/URLProtocol/</id>
     <published>2017-04-15T11:51:17.000Z</published>
-    <updated>2017-04-15T11:51:17.000Z</updated>
+    <updated>2018-01-16T17:47:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>哈哈<br><a id="more"></a></p>
+<blockquote>
+<p>An NSURLProtocol object handles the loading of protocol-specific URL data. The NSURLProtocol class itself is an abstract class that provides the infrastructure for processing URLs with a specific URL scheme. You create subclasses for any custom protocols or URL schemes that your app supports.</p>
+</blockquote>
+<p>根据官方文档的描述，<code>NSURLProtocol</code>可以处理特定协议的<code>URL</code>数据的加载。同时<code>NSURLProtocol</code>类本身是一个抽象类。</p>
+<h2 id="子类化URLProtocol"><a href="#子类化URLProtocol" class="headerlink" title="子类化URLProtocol"></a>子类化URLProtocol</h2><ul>
+<li>注册子类</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomURLProtocol</span>: <span class="title">URLProtocol</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//注册</span></div><div class="line"><span class="type">URLProtocol</span>.registerClass(<span class="type">CustomURLProtocol</span>.<span class="keyword">self</span>)</div><div class="line"><span class="comment">//移除</span></div><div class="line"><span class="type">URLProtocol</span>.unregisterClass(<span class="type">CustomURLProtocol</span>.<span class="keyword">self</span>)</div></pre></td></tr></table></figure>
+<p>在我们注册子类<code>URLProtocol</code>后，<code>URL Loading System</code>的请求会通过<code>CustomURLProtocol</code>，我们可以根据应用场景注册多个子类。</p>
+<ul>
+<li>接管request</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">canInit</span>(<span class="title">with</span> <span class="title">request</span>: <span class="title">URLRequest</span>) -&gt; <span class="title">Bool</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> needhandle &#123;</div><div class="line">        <span class="keyword">if</span> property(forKey: <span class="string">"HandledKey"</span>, <span class="keyword">in</span>: request) == <span class="literal">nil</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先需要重写这个方法来返回是否需要处理该request，如果返回<code>false</code>，该request会通过下一个注册的<code>URLProtocol</code>。如果没有<code>URLProtocol</code>处理该请求，<code>URL Loading System</code>会使用系统默认的行为去处理。</p>
+<ul>
+<li>自定义request</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">canonicalRequest</span>(<span class="title">for</span> <span class="title">request</span>: <span class="title">URLRequest</span>) -&gt; <span class="title">URLRequest</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> request.value(forHTTPHeaderField: <span class="string">"Authentication"</span>) == <span class="literal">nil</span> &#123;</div><div class="line">        <span class="keyword">var</span> req = request</div><div class="line">        req.addValue(<span class="string">"Bearer token"</span>, forHTTPHeaderField: <span class="string">"Authentication"</span>)</div><div class="line">        <span class="keyword">return</span> req</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> request.url?.host == <span class="string">"www.a.com"</span> &#123;</div><div class="line">        <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"http://www.b.com"</span>)!</div><div class="line">        <span class="keyword">return</span> <span class="type">URLRequest</span>(url: url)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> request</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法中我们可以修改当前的request，例如操作请求头，或者是重定向到其他的请求。如果什么都不做就返回当前的request。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">requestIsCacheEquivalent</span>(<span class="title">_</span> <span class="title">a</span>: <span class="title">URLRequest</span>, <span class="title">to</span> <span class="title">b</span>: <span class="title">URLRequest</span>) -&gt; <span class="title">Bool</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.requestIsCacheEquivalent(a, to: b)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>自定义加载</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">startLoading</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">self</span>.classForCoder.setProperty(<span class="string">"handle"</span>, forKey: <span class="string">"HandledKey"</span>, <span class="keyword">in</span>: request <span class="keyword">as</span>! <span class="type">NSMutableURLRequest</span>)</div><div class="line">    <span class="keyword">let</span> session = <span class="type">URLSession</span>(configuration: <span class="type">URLSessionConfiguration</span>.<span class="keyword">default</span>, delegate: <span class="keyword">self</span>, delegateQueue: <span class="literal">nil</span>)</div><div class="line">    requestTask = session.dataTask(with: request)</div><div class="line">    requestTask?.resume()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于我们在<code>canonicalRequest</code>中返回了true，表示我们自已处理请求，系统会调用<code>startLoading</code>方法开始请求。首先我们需要调用<code>setProperty</code>将该请求标记为已处理，这样在<code>canonicalRequest</code>中忽略已经发起的请求，防止循环处理。如果我们需要发起请求，需要<code>URLSession</code>来发起(<code>URLConnection</code>也可以)。<br>在<code>URLProtocol</code>对象中有一个<code>client</code>属性，该属性为实现<code>URLProtocolClient</code>协议的对象。我们需要通过该协议定义的方法为<code>client</code>传递数据。</p>
+<p>为此我们实现<code>URLSessionDataDelegate</code>协议：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> datas: <span class="type">Data</span>?</div><div class="line">   </div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">urlSession</span><span class="params">(<span class="number">_</span> session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data)</span></span> &#123;</div><div class="line">    datas = <span class="type">Data</span>()</div><div class="line">    client?.urlProtocol(<span class="keyword">self</span>, didReceive: response, cacheStoragePolicy: .notAllowed)</div><div class="line">    completionHandler(.allow)</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">urlSession</span><span class="params">(<span class="number">_</span> session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data)</span></span> &#123;</div><div class="line">    client?.urlProtocol(<span class="keyword">self</span>, didLoad: data)</div><div class="line">    datas?.append(data)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">urlSession</span><span class="params">(<span class="number">_</span> session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> err == error &#123;</div><div class="line">        client?.urlProtocol(<span class="keyword">self</span>, didFailWithError: err)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        client?.urlProtocolDidFinishLoading(<span class="keyword">self</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>除了上述的几个方法外，还包括重定向，缓存response，请求认证等。</p>
+<h2 id="URLProtocol应用场景"><a href="#URLProtocol应用场景" class="headerlink" title="URLProtocol应用场景"></a>URLProtocol应用场景</h2><p>由于<code>CustomURLProtocol</code>可以接管所有<code>URL Loading System</code>发起的请求，包括<code>UIWebView</code>。所以我们可以通过定制不同的<code>CustomURLProtocol</code>实现以下这些操作：</p>
+<ul>
+<li>限制scheme和域名访问</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">canInit</span>(<span class="title">with</span> <span class="title">request</span>: <span class="title">URLRequest</span>) -&gt; <span class="title">Bool</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> request.url?.scheme != <span class="string">"https"</span> &#123;</div><div class="line">        <span class="keyword">if</span> property(forKey: <span class="string">"HandledKey"</span>, <span class="keyword">in</span>: request) == <span class="literal">nil</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> request.url?.host != <span class="string">"www.abc.com"</span> &#123;</div><div class="line">        <span class="keyword">if</span> property(forKey: <span class="string">"HandledKey"</span>, <span class="keyword">in</span>: request) == <span class="literal">nil</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>自定义Request缓存策略</li>
+</ul>
+<ul>
+<li>HTTP Stub</li>
+</ul>
+<ul>
+<li>网络请求全局设置</li>
+</ul>
+]]></content>
     
     <summary type="html">
     
+      &lt;p&gt;哈哈&lt;br&gt;
+    
     </summary>
     
+    
+      <category term="HTTP" scheme="http://simonyang.cn/tags/HTTP/"/>
     
   </entry>
   

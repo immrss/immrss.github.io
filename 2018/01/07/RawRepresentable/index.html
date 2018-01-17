@@ -17,10 +17,12 @@
 
 
 
-  <meta name="description" content="Thinking and writing"/>
+  <meta name="description" content="RawRepresentable"/>
 
 
 
+
+  <meta name="keywords" content="swift, Simon" />
 
 
 
@@ -40,7 +42,7 @@
 
 
 
-<link rel="canonical" href="http://simonyang.cn/archives/2017/09/"/>
+<link rel="canonical" href="http://simonyang.cn/2018/01/07/RawRepresentable/"/>
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=2.6.0" />
@@ -77,11 +79,7 @@
 
 
 
-    <title>
-  
-    Archives - Simon
-  
-</title>
+    <title> RawRepresentable - Simon </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -172,55 +170,82 @@
           <div id="content" class="content">
             
   
-  <section id="archive" class="archive">
-    
-      
-        <div class="archive-title">
-          <span class="archive-post-counter">
-            14 Posts In Total
-          </span>
-        </div>
-      
-    
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          RawRepresentable
+        
+      </h1>
 
-    
-      
+      <div class="post-meta">
+        <span class="post-time">
+          2018-01-07
+        </span>
         
-        
-
-        
-          
-          <div class="collection-title">
-            <h2 class="archive-year">2017</h2>
+          <div class="post-category">
+            
+              <a href="/categories/swift/">swift</a>
+            
           </div>
         
+        
+      </div>
+    </header>
+
+    
+    
+
+    <div class="post-content">
+      
+        <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">protocol</span> <span class="title">RawRepresentable</span> </span>&#123;</div><div class="line">  </div><div class="line">    associatedtype <span class="type">RawValue</span></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">init</span>?(rawValue: <span class="type">Self</span>.<span class="type">RawValue</span>)</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">var</span> rawValue: <span class="type">Self</span>.<span class="type">RawValue</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+      
       
 
-      <div class="archive-post">
-        <span class="archive-post-time">
-          
-            09-13
-          
-        </span>
-        <span class="archive-post-title">
-          <a href="/2017/09/13/websocket/" class="archive-post-link">
-            Websocket原理与实践
-          </a>
-        </span>
-      </div>
-    
-  </section>
 
-  
-  <nav class="pagination">
+
+      
+      
+    
+
+    
+      <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/swift/">swift</a>
+            
+          </div>
+        
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/12/18/fmdb-safe/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">FMDatabaseQueue</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
     
     
   </nav>
 
+      </footer>
+    
+
+  </article>
 
 
           </div>
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
       </main>
@@ -251,6 +276,8 @@
     </div>
 
     
+  
+
 
 
     

@@ -17,7 +17,7 @@
 
 
 
-  <meta name="description" content="数据库版本升级"/>
+  <meta name="description" content="Sqlite模型版本自动升级方案"/>
 
 
 
@@ -79,7 +79,7 @@
 
 
 
-    <title> 数据库版本升级 - Simon </title>
+    <title> Sqlite模型版本自动升级方案 - Simon </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -174,7 +174,7 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          数据库版本升级
+          Sqlite模型版本自动升级方案
         
       </h1>
 
@@ -192,16 +192,22 @@
 
     <div class="post-content">
       
-        <p>在我们开发过程中，model层经常会随着版本升级发生变化。简单额的比如字段的增删改，还存在像。如果我们不同时升级相应表的结构，那么在操作数据库的时候就会出现异常，发生crash。<br><a id="more"></a></p>
+        <p>在我们开发过程中，Model层经常会随着版本升级发生变化。简单额的比如字段的增删改，还存在像。我们需要同时升级相应表的结构，否则在操作数据库的时候就会出现异常，发生crash。<br><a id="more"></a></p>
+<h2 id="Model更新情形："><a href="#Model更新情形：" class="headerlink" title="Model更新情形："></a>Model更新情形：</h2><ul>
+<li>新增字段</li>
+</ul>
+<p>首先获取当前表中所有的字段信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p>在表中插入新的Column</p>
+<pre><code>
+</code></pre><ul>
+<li><p>删除字段<br>在sqlite中，并不支持直接删除表中某一列。如果要达到这样的效果，需要将表中其他列的数据拷贝到一张新表上，然后删掉当前旧表，并将新表重命名。这个过程是非常繁琐的，而且如果数据量大的话会很耗时。所有为了简单起见，对于model删除字段这种情况，表不做处理。</p>
+</li>
+<li><p>修改字段</p>
+</li>
+</ul>
 <ul>
-<li><p>model新增字段</p>
-</li>
-<li><p>model删除字段</p>
-</li>
-<li><p>model修改字段</p>
-</li>
-<li><p>model更新某一字段的值</p>
-</li>
+<li>model更新某一字段的值</li>
 </ul>
 
       
@@ -230,15 +236,15 @@
         
   <nav class="post-nav">
     
-      <a class="prev" href="/2017/11/17/SQLCipher/">
+      <a class="prev" href="/2017/11/17/call和apply/">
         <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">使用SQLCipher加密sqlite数据库</span>
+        <span class="prev-text nav-default">Call和Apply</span>
         <span class="prev-text nav-mobile">Prev</span>
       </a>
     
     
-      <a class="next" href="/2017/11/17/fmdborm/">
-        <span class="next-text nav-default">fmdb</span>
+      <a class="next" href="/2017/11/17/promise/">
+        <span class="next-text nav-default">Promise</span>
         <span class="prev-text nav-mobile">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
@@ -267,8 +273,10 @@
   <span class="copyright-year">
     
     &copy; 
+     
+      2017 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

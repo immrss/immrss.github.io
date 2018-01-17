@@ -17,10 +17,12 @@
 
 
 
-  <meta name="description" content="URLProtocol"/>
+  <meta name="description" content="URLProtocol应用"/>
 
 
 
+
+  <meta name="keywords" content="HTTP, Simon" />
 
 
 
@@ -77,7 +79,7 @@
 
 
 
-    <title> URLProtocol - Simon </title>
+    <title> URLProtocol应用 - Simon </title>
   </head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -172,7 +174,7 @@
     <header class="post-header">
       <h1 class="post-title">
         
-          URLProtocol
+          URLProtocol应用
         
       </h1>
 
@@ -190,7 +192,49 @@
 
     <div class="post-content">
       
-        
+        <p>哈哈<br><a id="more"></a></p>
+<blockquote>
+<p>An NSURLProtocol object handles the loading of protocol-specific URL data. The NSURLProtocol class itself is an abstract class that provides the infrastructure for processing URLs with a specific URL scheme. You create subclasses for any custom protocols or URL schemes that your app supports.</p>
+</blockquote>
+<p>根据官方文档的描述，<code>NSURLProtocol</code>可以处理特定协议的<code>URL</code>数据的加载。同时<code>NSURLProtocol</code>类本身是一个抽象类。</p>
+<h2 id="子类化URLProtocol"><a href="#子类化URLProtocol" class="headerlink" title="子类化URLProtocol"></a>子类化URLProtocol</h2><ul>
+<li>注册子类</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CustomURLProtocol</span>: <span class="title">URLProtocol</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//注册</span></div><div class="line"><span class="type">URLProtocol</span>.registerClass(<span class="type">CustomURLProtocol</span>.<span class="keyword">self</span>)</div><div class="line"><span class="comment">//移除</span></div><div class="line"><span class="type">URLProtocol</span>.unregisterClass(<span class="type">CustomURLProtocol</span>.<span class="keyword">self</span>)</div></pre></td></tr></table></figure>
+<p>在我们注册子类<code>URLProtocol</code>后，<code>URL Loading System</code>的请求会通过<code>CustomURLProtocol</code>，我们可以根据应用场景注册多个子类。</p>
+<ul>
+<li>接管request</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">canInit</span>(<span class="title">with</span> <span class="title">request</span>: <span class="title">URLRequest</span>) -&gt; <span class="title">Bool</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> needhandle &#123;</div><div class="line">        <span class="keyword">if</span> property(forKey: <span class="string">"HandledKey"</span>, <span class="keyword">in</span>: request) == <span class="literal">nil</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先需要重写这个方法来返回是否需要处理该request，如果返回<code>false</code>，该request会通过下一个注册的<code>URLProtocol</code>。如果没有<code>URLProtocol</code>处理该请求，<code>URL Loading System</code>会使用系统默认的行为去处理。</p>
+<ul>
+<li>自定义request</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">canonicalRequest</span>(<span class="title">for</span> <span class="title">request</span>: <span class="title">URLRequest</span>) -&gt; <span class="title">URLRequest</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> request.value(forHTTPHeaderField: <span class="string">"Authentication"</span>) == <span class="literal">nil</span> &#123;</div><div class="line">        <span class="keyword">var</span> req = request</div><div class="line">        req.addValue(<span class="string">"Bearer token"</span>, forHTTPHeaderField: <span class="string">"Authentication"</span>)</div><div class="line">        <span class="keyword">return</span> req</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> request.url?.host == <span class="string">"www.a.com"</span> &#123;</div><div class="line">        <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"http://www.b.com"</span>)!</div><div class="line">        <span class="keyword">return</span> <span class="type">URLRequest</span>(url: url)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> request</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该方法中我们可以修改当前的request，例如操作请求头，或者是重定向到其他的请求。如果什么都不做就返回当前的request。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">requestIsCacheEquivalent</span>(<span class="title">_</span> <span class="title">a</span>: <span class="title">URLRequest</span>, <span class="title">to</span> <span class="title">b</span>: <span class="title">URLRequest</span>) -&gt; <span class="title">Bool</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.requestIsCacheEquivalent(a, to: b)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>自定义加载</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">startLoading</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">self</span>.classForCoder.setProperty(<span class="string">"handle"</span>, forKey: <span class="string">"HandledKey"</span>, <span class="keyword">in</span>: request <span class="keyword">as</span>! <span class="type">NSMutableURLRequest</span>)</div><div class="line">    <span class="keyword">let</span> session = <span class="type">URLSession</span>(configuration: <span class="type">URLSessionConfiguration</span>.<span class="keyword">default</span>, delegate: <span class="keyword">self</span>, delegateQueue: <span class="literal">nil</span>)</div><div class="line">    requestTask = session.dataTask(with: request)</div><div class="line">    requestTask?.resume()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于我们在<code>canonicalRequest</code>中返回了true，表示我们自已处理请求，系统会调用<code>startLoading</code>方法开始请求。首先我们需要调用<code>setProperty</code>将该请求标记为已处理，这样在<code>canonicalRequest</code>中忽略已经发起的请求，防止循环处理。如果我们需要发起请求，需要<code>URLSession</code>来发起(<code>URLConnection</code>也可以)。<br>在<code>URLProtocol</code>对象中有一个<code>client</code>属性，该属性为实现<code>URLProtocolClient</code>协议的对象。我们需要通过该协议定义的方法为<code>client</code>传递数据。</p>
+<p>为此我们实现<code>URLSessionDataDelegate</code>协议：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> datas: <span class="type">Data</span>?</div><div class="line">   </div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">urlSession</span><span class="params">(<span class="number">_</span> session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data)</span></span> &#123;</div><div class="line">    datas = <span class="type">Data</span>()</div><div class="line">    client?.urlProtocol(<span class="keyword">self</span>, didReceive: response, cacheStoragePolicy: .notAllowed)</div><div class="line">    completionHandler(.allow)</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">urlSession</span><span class="params">(<span class="number">_</span> session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data)</span></span> &#123;</div><div class="line">    client?.urlProtocol(<span class="keyword">self</span>, didLoad: data)</div><div class="line">    datas?.append(data)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">urlSession</span><span class="params">(<span class="number">_</span> session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> err == error &#123;</div><div class="line">        client?.urlProtocol(<span class="keyword">self</span>, didFailWithError: err)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        client?.urlProtocolDidFinishLoading(<span class="keyword">self</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>除了上述的几个方法外，还包括重定向，缓存response，请求认证等。</p>
+<h2 id="URLProtocol应用场景"><a href="#URLProtocol应用场景" class="headerlink" title="URLProtocol应用场景"></a>URLProtocol应用场景</h2><p>由于<code>CustomURLProtocol</code>可以接管所有<code>URL Loading System</code>发起的请求，包括<code>UIWebView</code>。所以我们可以通过定制不同的<code>CustomURLProtocol</code>实现以下这些操作：</p>
+<ul>
+<li>限制scheme和域名访问</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">canInit</span>(<span class="title">with</span> <span class="title">request</span>: <span class="title">URLRequest</span>) -&gt; <span class="title">Bool</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> request.url?.scheme != <span class="string">"https"</span> &#123;</div><div class="line">        <span class="keyword">if</span> property(forKey: <span class="string">"HandledKey"</span>, <span class="keyword">in</span>: request) == <span class="literal">nil</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> request.url?.host != <span class="string">"www.abc.com"</span> &#123;</div><div class="line">        <span class="keyword">if</span> property(forKey: <span class="string">"HandledKey"</span>, <span class="keyword">in</span>: request) == <span class="literal">nil</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>自定义Request缓存策略</li>
+</ul>
+<ul>
+<li>HTTP Stub</li>
+</ul>
+<ul>
+<li>网络请求全局设置</li>
+</ul>
+
       
     </div>
 
@@ -206,6 +250,12 @@
 
     
       <footer class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/HTTP/">HTTP</a>
+            
+          </div>
         
         
         
@@ -248,8 +298,10 @@
   <span class="copyright-year">
     
     &copy; 
+     
+      2017 - 
     
-    2017
+    2018
 
     <span class="heart">
       <i class="iconfont icon-heart"></i>

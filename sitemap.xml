@@ -2,44 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://simonyang.cn/2017/12/18/fmdb-safe/</loc>
+    <loc>http://simonyang.cn/2017/08/18/NSException/</loc>
     
-    <lastmod>2017-12-19T16:15:24.000Z</lastmod>
+    <lastmod>2018-01-16T17:54:56.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://simonyang.cn/2017/11/17/sqlite_model_update/</loc>
+    <loc>http://simonyang.cn/2017/11/17/call%E5%92%8Capply/</loc>
     
-    <lastmod>2017-12-18T17:33:12.000Z</lastmod>
+    <lastmod>2018-01-16T17:54:39.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://simonyang.cn/2017/11/17/promise/</loc>
+    
+    <lastmod>2018-01-16T17:54:24.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://simonyang.cn/2017/04/15/URLProtocol/</loc>
+    
+    <lastmod>2018-01-16T17:47:41.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://simonyang.cn/2018/01/07/RawRepresentable/</loc>
+    
+    <lastmod>2018-01-16T17:39:11.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://simonyang.cn/about/index.html</loc>
     
-    <lastmod>2017-12-18T17:14:50.000Z</lastmod>
+    <lastmod>2018-01-16T17:26:27.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://simonyang.cn/2017/06/06/wkwebviewcache/</loc>
+    
+    <lastmod>2018-01-16T17:21:19.000Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://simonyang.cn/2017/04/24/pthread/</loc>
     
-    <lastmod>2017-12-18T16:39:24.000Z</lastmod>
+    <lastmod>2018-01-16T17:19:24.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://simonyang.cn/2017/08/18/NSException/</loc>
+    <loc>http://simonyang.cn/2017/11/17/sqlite_model_update/</loc>
     
-    <lastmod>2017-12-18T16:27:26.000Z</lastmod>
+    <lastmod>2017-12-19T17:03:27.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://simonyang.cn/2017/06/06/FileHandle/</loc>
+    <loc>http://simonyang.cn/2017/12/18/fmdb-safe/</loc>
     
-    <lastmod>2017-12-18T16:25:04.000Z</lastmod>
+    <lastmod>2017-12-19T16:15:24.000Z</lastmod>
     
   </url>
   
@@ -58,23 +86,9 @@
   </url>
   
   <url>
-    <loc>http://simonyang.cn/2017/11/17/fmdborm/</loc>
-    
-    <lastmod>2017-11-16T16:35:41.292Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://simonyang.cn/2017/08/20/sqlite/</loc>
     
     <lastmod>2017-11-16T16:35:36.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://simonyang.cn/2017/11/17/SQLCipher/</loc>
-    
-    <lastmod>2017-11-16T16:32:55.000Z</lastmod>
     
   </url>
   
@@ -96,13 +110,6 @@
     <loc>http://simonyang.cn/2017/04/10/RegEx/</loc>
     
     <lastmod>2017-08-18T18:14:57.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://simonyang.cn/2017/04/15/URLProtocol/</loc>
-    
-    <lastmod>2017-04-15T11:51:17.000Z</lastmod>
     
   </url>
   
